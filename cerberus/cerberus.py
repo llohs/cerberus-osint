@@ -13,11 +13,6 @@ import datetime
 import subprocess
 import requests
 
-try:
-    import pyfiglet
-except ImportError:
-    pyfiglet = None
-
 from core.utils import R, D, G, Y, C, X, get_headers, get_proxies, set_tor, is_tor, get_input, progress, head_wake, head_done, cerberus_say, QUOTES
 from core.config import config_load, config_save, configure
 from core.grimoire import grimoire_salvar, grimoire_listar, limpar_logs, export_html, export_markdown
@@ -26,22 +21,6 @@ from heads.head2_recon import domain_curse, ip_recon, hellscan, ssl_checker, tec
 from heads.head3_security import vulnscan, cve_lookup, paste_monitor, shodan_search, cloud_scan, phone_osint
 
 LOG_DIR = os.path.expanduser("~/cerberus/logs")
-
-
-# DARK HACKER FX
-
-def hacker_print(text, delay=0.01):
-    """Imprime texto com efeito de 'digitação', estilo terminal hacker."""
-    for char in text:
-        sys.stdout.write(char)
-        sys.stdout.flush()
-        time.sleep(delay)
-    print()
-
-
-def blink(text):
-    """Aplica o código ANSI de blink (\\033[5m) a um trecho de texto."""
-    return "\033[5m" + text + "\033[0m"
 
 ART = r"""                                                       
                     .-@W=                                             
@@ -78,16 +57,6 @@ TITLE = r"""    ___          _
 \____/\___|_|  |_.__/ \___|_|   \__,_|___/
                                           """
 
-
-def get_title():
-    """Gera o título ASCII via pyfiglet (fonte agressiva). Cai no TITLE fixo se indisponível."""
-    if pyfiglet is None:
-        return TITLE
-    try:
-        return pyfiglet.figlet_format("CERBERUS", font="slant")
-    except Exception:
-        return TITLE
-
 INFO_BOX = r"""+-------------------------------------------+
 | [!] CERBERUS: OSINT & SECURITY ANALYSIS  |
 +-------------------------------------------+
@@ -110,7 +79,7 @@ INFO_BOX = r"""+-------------------------------------------+
 def show_banner():
     os.system("cls" if os.name == "nt" else "clear")
 
-    title_lines = get_title().split("\n")
+    title_lines = TITLE.split("\n")
     if title_lines and title_lines[0].strip() == "":
         title_lines = title_lines[1:]
 
@@ -206,25 +175,21 @@ def calcular_score(portas, high_vulns, medium_vulns, subdomains, ssl_dias, perfi
 def judgment(osint_score, recon_score, sec_score, findings):
     overall = int((osint_score + recon_score + sec_score) / 3)
     if overall >= 75:
-        verdict     = "[CRITICAL] TARGET COMPROMISED. FULL BREACH."
+        verdict     = "CONDEMNED"
         verdict_msg = "This soul is heavily exposed. Immediate action required."
         cor         = R
-        piscar      = True
     elif overall >= 50:
-        verdict     = "[WARNING] SIGNIFICANT EXPOSURE. SHIELDS COMPROMISED."
+        verdict     = "WATCH CLOSELY"
         verdict_msg = "Significant vulnerabilities detected. Monitor and act."
-        cor         = R
-        piscar      = False
+        cor         = Y
     elif overall >= 25:
-        verdict     = "[!] MINOR ANOMALIES. MONITORING ADVISED."
+        verdict     = "MINOR SINS"
         verdict_msg = "Some weaknesses found. Low but not negligible risk."
         cor         = Y
-        piscar      = False
     else:
-        verdict     = "[+] SYSTEM SECURE. NO BREACH DETECTED."
+        verdict     = "SOUL IS CLEAN"
         verdict_msg = "No significant threats detected."
         cor         = G
-        piscar      = False
 
     def bar(score):
         filled = int(score / 5)
@@ -247,10 +212,7 @@ def judgment(osint_score, recon_score, sec_score, findings):
         for f in findings:
             print(D + "  -> " + f + X)
     print()
-    if piscar:
-        print(blink(cor + "  VERDICT : " + verdict + X))
-    else:
-        print(cor + "  VERDICT : " + verdict + X)
+    print(cor + "  VERDICT : " + verdict + X)
     print(D + "  " + verdict_msg + X)
     print()
     print(R + "  ======================================" + X)
@@ -271,7 +233,7 @@ def chain_ritual(target):
 
     print()
     print(R + "  ======================================" + X)
-    hacker_print(R + "  [CERBERUS] The gates open for: " + target + X, delay=0.015)
+    cerberus_say(R + "  [CERBERUS] The gates open for: " + target + X)
     print(R + "  ======================================" + X)
     print()
     time.sleep(0.5)
@@ -692,7 +654,7 @@ def export_graph():
     for grp, cor, nome_l in legend:
         legend_html += f'<div class="li"><span style="background:{cor}"></span>{nome_l}</div>'
       
-    html = """<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
