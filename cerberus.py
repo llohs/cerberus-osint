@@ -58,19 +58,20 @@ TITLE = r"""    ___          _
                                           """
 
 INFO_BOX = r"""+-------------------------------------------+
-| [!] CERBERUS: OSINT & SECURITY ANALYSIS  |
+| [!] CERBERUS: ANALISE OSINT & SEGURANCA  |
 +-------------------------------------------+
-| Cerberus is a modular OSINT, recon, and   |
-| security analysis tool built in Python.   |
+| Cerberus e uma ferramenta modular de      |
+| OSINT, recon e analise de seguranca       |
+| construida em Python.                     |
 |                                           |
-| It watches a target from three angles:    |
+| Ele observa um alvo sob tres angulos:     |
 |   -> OSINT                                |
 |   -> RECON                                |
-|   -> SECURITY                             |
+|   -> SEGURANCA                            |
 |                                           |
-| Cerberus turns raw data into intelligence |
-| and scores the target across three        |
-| dimensions before issuing a verdict.      |
+| Cerberus transforma dados brutos em       |
+| inteligencia e pontua o alvo em tres      |
+| dimensoes antes de emitir um veredito.    |
 +-------------------------------------------+"""
 
 
@@ -105,57 +106,57 @@ def show_banner():
         print(f"{left_part:<{max_left_width + 4}}{art_part}")
     print(X)
 
-    print(D + "  [+] VERSION  : Cerberus-1.3.0" + X)
+    print(D + "  [+] VERSAO   : Cerberus-1.3.0" + X)
     print(D + "  [+] GITHUB   : github.com/lohjs-0/cerberus" + X)
-    print(D + "  [+] QUOTE    : " + random.choice(QUOTES) + X)
+    print(D + "  [+] FRASE    : " + random.choice(QUOTES) + X)
     print()
     print(R + "  [========================================]" + X)
     print()
-    print(R + "  [SELECT YOUR PATH]" + X)
+    print(R + "  [ESCOLHA SEU CAMINHO]" + X)
     print()
 
 
 # MENU
 
 def show_menu(target=None):
-    tor_status = G + " [TOR ON]" + X if is_tor() else ""
-    alvo = R + "  Target : " + target + tor_status + X if target else D + "  Target : not defined" + X
+    tor_status = G + " [TOR ATIVO]" + X if is_tor() else ""
+    alvo = R + "  Alvo : " + target + tor_status + X if target else D + "  Alvo : nao definido" + X
     print(alvo)
     print()
-    print(D + "  >> Not sure where to start? Try option (12) CHAIN RITUAL." + X)
+    print(D + "  >> Nao sabe por onde comecar? Tente a opcao (12) CHAIN RITUAL." + X)
     print()
 
-    print(R + "  ┌─ COLLECTION / RECON ───────────────────────────────────┐" + X)
-    print(R + "  │  (1) SOUL SEARCH    -> username / socials              │" + X)
-    print(R + "  │  (2) DOMAIN CURSE   -> domain / IP / DNS               │" + X)
-    print(R + "  │  (3) HELLSCAN       -> ports / services                │" + X)
+    print(R + "  ┌─ COLETA / RECON ───────────────────────────────────────┐" + X)
+    print(R + "  │  (1) SOUL SEARCH    -> usuario / redes sociais         │" + X)
+    print(R + "  │  (2) DOMAIN CURSE   -> dominio / IP / DNS              │" + X)
+    print(R + "  │  (3) HELLSCAN       -> portas / servicos               │" + X)
     print(R + "  │  (4) DORKS          -> google dorks                    │" + X)
-    print(R + "  │  (5) UNDERWORLD     -> subdomains / email              │" + X)
-    print(R + "  │  (6) SSL CHECK      -> certificate / TLS               │" + X)
+    print(R + "  │  (5) UNDERWORLD     -> subdominios / email             │" + X)
+    print(R + "  │  (6) SSL CHECK      -> certificado / TLS               │" + X)
     print(R + "  │  (7) TECH SCAN      -> stack / frameworks / CMS        │" + X)
-    print(R + "  ├─ ANALYSIS / SECURITY ──────────────────────────────────┤" + X)
-    print(R + "  │  (8)  VULNSCAN      -> web vulnerabilities             │" + X)
-    print(R + "  │  (9) CVE LOOKUP    -> search NVD by product            │" + X)
-    print(R + "  │  (10) PASTE MONITOR -> leaks / public pastes           │" + X)
+    print(R + "  ├─ ANALISE / SEGURANCA ──────────────────────────────────┤" + X)
+    print(R + "  │  (8)  VULNSCAN      -> vulnerabilidades web            │" + X)
+    print(R + "  │  (9) CVE LOOKUP    -> buscar no NVD por produto        │" + X)
+    print(R + "  │  (10) PASTE MONITOR -> vazamentos / pastes publicos    │" + X)
     print(R + "  │  (11) CLOUD SCAN    -> S3 / Firebase / GCP / Azure     │" + X)
-    print(R + "  ├─ AUTOMATION ───────────────────────────────────────────┤" + X)
-    print(R + "  │  (12)  CHAIN RITUAL  -> full pipeline                  │" + X)
-    print(R + "  ├─ REPORTS / VISUALIZATION ──────────────────────────────┤" + X)
-    print(R + "  │  (13) GRIMOIRE      -> reports / list / export         │" + X)
-    print(R + "  │  (14) VISUALIZE    -> analyze / graph / tree / timeline│" + X)
-    print(R + "  │  (15) DASHBOARD     -> terminal intelligence summary   │" + X)
-    print(R + "  ├─ SYSTEM ───────────────────────────────────────────────┤" + X)
-    print(R + "  │  (C)  CONFIGURE     -> APIs / settings                 │" + X)
-    print(R + "  │  (X)  TOR           -> anonymous mode / proxy          │" + X)
-    print(R + "  │  (L)  CLEAR LOGS    -> delete target logs              │" + X)
+    print(R + "  ├─ AUTOMACAO ────────────────────────────────────────────┤" + X)
+    print(R + "  │  (12)  CHAIN RITUAL  -> pipeline completo              │" + X)
+    print(R + "  ├─ RELATORIOS / VISUALIZACAO ────────────────────────────┤" + X)
+    print(R + "  │  (13) GRIMOIRE      -> relatorios / listar / exportar  │" + X)
+    print(R + "  │  (14) VISUALIZE    -> analisar / grafo / arvore / linha│" + X)
+    print(R + "  │  (15) DASHBOARD     -> resumo de inteligencia no term. │" + X)
+    print(R + "  ├─ SISTEMA ───────────────────────────────────────────────┤" + X)
+    print(R + "  │  (C)  CONFIGURE     -> APIs / configuracoes            │" + X)
+    print(R + "  │  (X)  TOR           -> modo anonimo / proxy            │" + X)
+    print(R + "  │  (L)  CLEAR LOGS    -> apagar logs do alvo             │" + X)
     print(R + "  └────────────────────────────────────────────────────────┘" + X)
     print()
-    print(R + "  (T) SET TARGET   -> change target" + X)
-    print(R + "  (0) DESCEND      -> exit" + X)
+    print(R + "  (T) SET TARGET   -> trocar alvo" + X)
+    print(R + "  (0) DESCEND      -> sair" + X)
     print()
 
 
-# SCORING
+# PONTUACAO
 
 def calcular_score(portas, high_vulns, medium_vulns, subdomains, ssl_dias, perfis, cves):
     score = 0
@@ -175,20 +176,20 @@ def calcular_score(portas, high_vulns, medium_vulns, subdomains, ssl_dias, perfi
 def judgment(osint_score, recon_score, sec_score, findings):
     overall = int((osint_score + recon_score + sec_score) / 3)
     if overall >= 75:
-        verdict     = "CONDEMNED"
-        verdict_msg = "This soul is heavily exposed. Immediate action required."
+        verdict     = "CONDENADO"
+        verdict_msg = "Esta alma esta fortemente exposta. Acao imediata necessaria."
         cor         = R
     elif overall >= 50:
-        verdict     = "WATCH CLOSELY"
-        verdict_msg = "Significant vulnerabilities detected. Monitor and act."
+        verdict     = "OBSERVAR DE PERTO"
+        verdict_msg = "Vulnerabilidades significativas detectadas. Monitore e aja."
         cor         = Y
     elif overall >= 25:
-        verdict     = "MINOR SINS"
-        verdict_msg = "Some weaknesses found. Low but not negligible risk."
+        verdict     = "PEQUENOS PECADOS"
+        verdict_msg = "Algumas fraquezas encontradas. Risco baixo, mas nao desprezivel."
         cor         = Y
     else:
-        verdict     = "SOUL IS CLEAN"
-        verdict_msg = "No significant threats detected."
+        verdict     = "ALMA LIMPA"
+        verdict_msg = "Nenhuma ameaca significativa detectada."
         cor         = G
 
     def bar(score):
@@ -198,28 +199,28 @@ def judgment(osint_score, recon_score, sec_score, findings):
 
     print()
     print(R + "  ======================================" + X)
-    print(R + "         CERBERUS  JUDGMENT             " + X)
+    print(R + "         VEREDITO DO CERBERUS           " + X)
     print(R + "  ======================================" + X)
     print()
-    print(D + "  HEAD I   (OSINT)     " + X + R + bar(osint_score) + X)
-    print(D + "  HEAD II  (RECON)     " + X + R + bar(recon_score) + X)
-    print(D + "  HEAD III (SECURITY)  " + X + R + bar(sec_score) + X)
+    print(D + "  CABECA I   (OSINT)     " + X + R + bar(osint_score) + X)
+    print(D + "  CABECA II  (RECON)     " + X + R + bar(recon_score) + X)
+    print(D + "  CABECA III (SEGURANCA) " + X + R + bar(sec_score) + X)
     print()
-    print(D + "  OVERALL RISK         " + X + cor + bar(overall) + X)
+    print(D + "  RISCO GERAL            " + X + cor + bar(overall) + X)
     print()
     if findings:
-        print(R + "  [EVIDENCE]" + X)
+        print(R + "  [EVIDENCIAS]" + X)
         for f in findings:
             print(D + "  -> " + f + X)
     print()
-    print(cor + "  VERDICT : " + verdict + X)
+    print(cor + "  VEREDITO : " + verdict + X)
     print(D + "  " + verdict_msg + X)
     print()
     print(R + "  ======================================" + X)
     print()
 
 
-# CHAIN RITUAL
+# RITUAL EM CADEIA
 
 def chain_ritual(target):
     findings     = []
@@ -233,21 +234,21 @@ def chain_ritual(target):
 
     print()
     print(R + "  ======================================" + X)
-    cerberus_say(R + "  [CERBERUS] The gates open for: " + target + X)
+    cerberus_say(R + "  [CERBERUS] Os portoes se abrem para: " + target + X)
     print(R + "  ======================================" + X)
     print()
     time.sleep(0.5)
 
     head_wake(1)
-    user = input(R + "  Username to search (Enter to skip): " + X).strip()
+    user = input(R + "  Usuario para buscar (Enter para pular): " + X).strip()
     if user:
         progress("SOUL SEARCH", 1.0, head=1)
         p      = soul_search(user)
         perfis = p if p else 0
         if perfis:
-            findings.append(str(perfis) + " social profile(s) found for: " + user)
+            findings.append(str(perfis) + " perfil(is) social(is) encontrado(s) para: " + user)
     else:
-        print(D + "  [SOUL SEARCH] skipped" + X + "\n")
+        print(D + "  [SOUL SEARCH] pulado" + X + "\n")
 
     progress("DOMAIN CURSE", 1.5, head=1)
     domain_curse(target)
@@ -256,7 +257,7 @@ def chain_ritual(target):
     try:
         ip_addr = socket.gethostbyname(target)
         ip_recon(ip_addr)
-        findings.append("IP resolved: " + ip_addr)
+        findings.append("IP resolvido: " + ip_addr)
     except:
         ip_recon(target)
 
@@ -264,7 +265,7 @@ def chain_ritual(target):
     s          = subdomain_finder(target)
     subdomains = s if s else 0
     if subdomains:
-        findings.append(str(subdomains) + " subdomain(s) exposed")
+        findings.append(str(subdomains) + " subdominio(s) exposto(s)")
 
     progress("PASTE MONITOR", 1.0, head=1)
     paste_monitor(target)
@@ -275,15 +276,15 @@ def chain_ritual(target):
     p      = hellscan(target)
     portas = p if p else 0
     if portas:
-        findings.append(str(portas) + " open port(s) detected")
+        findings.append(str(portas) + " porta(s) aberta(s) detectada(s)")
 
     progress("SSL CHECK", 1.5, head=2)
     d        = ssl_checker(target)
     ssl_dias = d if d else None
     if ssl_dias is not None and ssl_dias < 30:
-        findings.append("SSL certificate expires in " + str(ssl_dias) + " days")
+        findings.append("Certificado SSL expira em " + str(ssl_dias) + " dia(s)")
     elif ssl_dias is None:
-        findings.append("SSL certificate invalid or unreachable")
+        findings.append("Certificado SSL invalido ou inacessivel")
 
     progress("TECH SCAN", 1.5, head=2)
     tech_fingerprint(target)
@@ -295,12 +296,12 @@ def chain_ritual(target):
     if result:
         _, high_vulns, medium_vulns = result
         if high_vulns:
-            findings.append(str(high_vulns) + " HIGH severity vulnerability(ies) found")
+            findings.append(str(high_vulns) + " vulnerabilidade(s) de severidade ALTA encontrada(s)")
         if medium_vulns:
-            findings.append(str(medium_vulns) + " MEDIUM severity issue(s) found")
+            findings.append(str(medium_vulns) + " problema(s) de severidade MEDIA encontrado(s)")
 
     progress("CVE LOOKUP", 1.5, head=3)
-    cerberus_say(D + "  [HEAD III] Searching the book of sins..." + X)
+    cerberus_say(D + "  [CABECA III] Consultando o livro dos pecados..." + X)
     try:
         r = requests.get(
             "https://services.nvd.nist.gov/rest/json/cves/2.0",
@@ -310,12 +311,12 @@ def chain_ritual(target):
         cves       = r.json().get("vulnerabilities", [])
         cves_count = len(cves)
         if cves_count:
-            findings.append(str(cves_count) + " CVE(s) associated with target")
-            print(R + "  [CVEs FOUND: " + str(cves_count) + "]" + X)
+            findings.append(str(cves_count) + " CVE(s) associado(s) ao alvo")
+            print(R + "  [CVEs ENCONTRADOS: " + str(cves_count) + "]" + X)
             for item in cves[:3]:
                 print(D + "  -> " + item["cve"].get("id", "?") + X)
         else:
-            print(D + "  No CVEs directly associated." + X)
+            print(D + "  Nenhum CVE diretamente associado." + X)
     except:
         pass
     head_done(3)
@@ -331,38 +332,38 @@ def chain_ritual(target):
 # DORKS
 
 DORKS_PRESET = {
-    "1": ("Admin panels",    "inurl:admin/login.php"),
-    "2": ("Backup files",    "intitle:index.of backup"),
-    "3": ("Config exposed",  "intitle:index.of web.config"),
-    "4": ("SQL errors",      "intext:sql syntax near"),
-    "5": ("Login pages",     "inurl:login.php"),
-    "6": ("phpMyAdmin",      "inurl:phpmyadmin"),
-    "7": ("WordPress admin", "inurl:wp-admin"),
-    "8": ("Open redirects",  "inurl:redirect?url="),
-    "9": ("Cameras exposed", "inurl:view/index.shtml"),
+    "1": ("Paineis admin",       "inurl:admin/login.php"),
+    "2": ("Arquivos de backup",  "intitle:index.of backup"),
+    "3": ("Config exposta",      "intitle:index.of web.config"),
+    "4": ("Erros SQL",           "intext:sql syntax near"),
+    "5": ("Paginas de login",    "inurl:login.php"),
+    "6": ("phpMyAdmin",          "inurl:phpmyadmin"),
+    "7": ("Admin WordPress",     "inurl:wp-admin"),
+    "8": ("Redirecionamentos abertos", "inurl:redirect?url="),
+    "9": ("Cameras expostas",    "inurl:view/index.shtml"),
 }
 
 def dorks():
     print("\n" + R + "  === DORKS ===" + X + "\n")
     for k, (nome, dork) in DORKS_PRESET.items():
         print(D + "  (" + k + ") " + nome.ljust(20) + " -> " + dork + X)
-    print(R + "  (0) Custom dork" + X + "\n")
-    op = get_input("  Choose: ")
+    print(R + "  (0) Dork personalizado" + X + "\n")
+    op = get_input("  Escolha: ")
     if op == "0":
-        query = input(R + "  Enter dork: " + X)
-        limit = input(R + "  Results? [20]: " + X) or "20"
+        query = input(R + "  Digite o dork: " + X)
+        limit = input(R + "  Resultados? [20]: " + X) or "20"
     elif op in DORKS_PRESET:
         nome, query = DORKS_PRESET[op]
-        limit = input(R + "  Results? [20]: " + X) or "20"
+        limit = input(R + "  Resultados? [20]: " + X) or "20"
         print("\n" + D + "  Dork: " + query + X + "\n")
     else:
-        print(R + "  Invalid option." + X + "\n")
+        print(R + "  Opcao invalida." + X + "\n")
         return
     try:
         limit = int(limit)
     except:
         limit = 20
-    print("\n" + R + "  Searching..." + X + "\n")
+    print("\n" + R + "  Buscando..." + X + "\n")
     try:
         r = requests.get(
             "https://api.duckduckgo.com/",
@@ -382,7 +383,7 @@ def dorks():
         resultados = []
     saida = "Dork: " + query + "\n\n"
     if not resultados:
-        print(D + "  No results found." + X + "\n")
+        print(D + "  Nenhum resultado encontrado." + X + "\n")
         return
     for i, url in enumerate(resultados, 1):
         linha = "  [" + str(i).zfill(2) + "] " + url
@@ -390,51 +391,51 @@ def dorks():
         saida += linha + "\n"
     print()
     caminho = grimoire_salvar("dorks", query.replace(" ", "_")[:30], saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatorio salvo: " + X + caminho + "\n")
 
 
-# TOR CONTROL
+# CONTROLE TOR
 
 def tor_control():
     TOR_PROXY = {"http": "socks5h://127.0.0.1:9150", "https": "socks5h://127.0.0.1:9150"}
     print("\n" + R + "  === TOR / PROXY ===" + X + "\n")
-    status = G + "ACTIVE" + X if is_tor() else D + "INACTIVE" + X
-    print("  Tor mode: " + status + "\n")
-    print(R + "  [1] Enable Tor" + X)
-    print(R + "  [2] Disable Tor" + X)
-    print(R + "  [3] Check Tor IP" + X)
-    print(R + "  [4] Start Tor daemon" + X)
-    print(R + "  [9] Back" + X + "\n")
-    op = get_input("  Choose: ")
+    status = G + "ATIVO" + X if is_tor() else D + "INATIVO" + X
+    print("  Modo Tor: " + status + "\n")
+    print(R + "  [1] Ativar Tor" + X)
+    print(R + "  [2] Desativar Tor" + X)
+    print(R + "  [3] Verificar IP do Tor" + X)
+    print(R + "  [4] Iniciar daemon do Tor" + X)
+    print(R + "  [9] Voltar" + X + "\n")
+    op = get_input("  Escolha: ")
     if op == "1":
         try:
-            print(D + "  Connecting through Tor (may take 30s)..." + X)
+            print(D + "  Conectando pelo Tor (pode levar 30s)..." + X)
             r    = requests.get("https://check.torproject.org/api/ip", proxies=TOR_PROXY, timeout=30)
             data = r.json()
             set_tor(True)
-            print(G + "  [TOR ON] IP: " + data.get("IP", "?") + X + "\n")
+            print(G + "  [TOR ATIVO] IP: " + data.get("IP", "?") + X + "\n")
         except:
             set_tor(True)
-            print(Y + "  Tor mode enabled (unverified)." + X + "\n")
+            print(Y + "  Modo Tor ativado (nao verificado)." + X + "\n")
     elif op == "2":
         set_tor(False)
-        print(D + "  Tor DISABLED." + X + "\n")
+        print(D + "  Tor DESATIVADO." + X + "\n")
     elif op == "3":
         try:
             r    = requests.get("https://check.torproject.org/api/ip", proxies=get_proxies(), timeout=8)
             data = r.json()
             cor  = G if data.get("IsTor") else Y
             print(cor + "  IP     : " + data.get("IP", "?") + X)
-            print(cor + "  Is Tor : " + str(data.get("IsTor", False)) + X + "\n")
+            print(cor + "  E Tor  : " + str(data.get("IsTor", False)) + X + "\n")
         except Exception as e:
-            print(R + "  Error: " + str(e) + X + "\n")
+            print(R + "  Erro: " + str(e) + X + "\n")
     elif op == "4":
         try:
             subprocess.Popen(["tor"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             time.sleep(3)
-            print(G + "  Tor started. Now enable with [1]." + X + "\n")
+            print(G + "  Tor iniciado. Agora ative com [1]." + X + "\n")
         except Exception as e:
-            print(R + "  Error: " + str(e) + X + "\n")
+            print(R + "  Erro: " + str(e) + X + "\n")
 
 
 # DASHBOARD
@@ -443,11 +444,11 @@ def dashboard():
     os.system("cls" if os.name == "nt" else "clear")
     print(R + "  === CERBERUS DASHBOARD ===" + X + "\n")
     if not os.path.exists(LOG_DIR):
-        print(D + "  No data yet. Run CHAIN RITUAL first." + X + "\n")
+        print(D + "  Nenhum dado ainda. Execute o RITUAL EM CADEIA primeiro." + X + "\n")
         return
     arquivos = [f for f in os.listdir(LOG_DIR) if f.endswith(".txt")]
     if not arquivos:
-        print(D + "  No reports found." + X + "\n")
+        print(D + "  Nenhum relatorio encontrado." + X + "\n")
         return
 
     targets     = {}
@@ -464,28 +465,28 @@ def dashboard():
         try:
             with open(os.path.join(LOG_DIR, nome)) as f:
                 c = f.read()
-            total_vulns += c.count("[VULN]") + c.count("[CRITICAL]")
-            total_ports += c.count("[OPEN]")
-            total_subs  += c.count("[FOUND]") if "subdomain" in nome else 0
-            total_leaks += c.count("[FOUND]") if "paste" in nome else 0
+            total_vulns += c.count("[VULN]") + c.count("[CRÍTICO]")
+            total_ports += c.count("[ABERTO]")
+            total_subs  += c.count("[ENCONTRADO]") if "subdomain" in nome else 0
+            total_leaks += c.count("[ENCONTRADO]") if "paste" in nome else 0
         except:
             pass
 
     print(R + "  ┌─────────────────────────────────────┐" + X)
-    print(R + "  │          INTELLIGENCE SUMMARY        │" + X)
+    print(R + "  │       RESUMO DE INTELIGENCIA         │" + X)
     print(R + "  ├──────────────┬──────────────────────┤" + X)
     for label, val, cor in [
-        ("Targets",    str(len(targets)),    G),
-        ("Reports",    str(len(arquivos)),   D),
-        ("Vulns",      str(total_vulns),     R if total_vulns > 0 else G),
-        ("Open Ports", str(total_ports),     R if total_ports > 0 else G),
-        ("Subdomains", str(total_subs),      D),
-        ("Leaks",      str(total_leaks),     R if total_leaks > 0 else G),
+        ("Alvos",         str(len(targets)),    G),
+        ("Relatorios",    str(len(arquivos)),   D),
+        ("Vulns",         str(total_vulns),     R if total_vulns > 0 else G),
+        ("Portas Abertas",str(total_ports),     R if total_ports > 0 else G),
+        ("Subdominios",   str(total_subs),      D),
+        ("Vazamentos",    str(total_leaks),     R if total_leaks > 0 else G),
     ]:
         print(R + "  │ " + X + D + label.ljust(12) + X + R + " │ " + X + cor + val.ljust(20) + X + R + " │" + X)
     print(R + "  └──────────────┴──────────────────────┘" + X)
     print()
-    print(R + "  [TARGETS]" + X + "\n")
+    print(R + "  [ALVOS]" + X + "\n")
 
     for t, files in sorted(targets.items()):
         vulns = ports = subs = 0
@@ -495,9 +496,9 @@ def dashboard():
             try:
                 with open(os.path.join(LOG_DIR, nome)) as f:
                     c = f.read()
-                vulns += c.count("[VULN]") + c.count("[CRITICAL]")
-                ports += c.count("[OPEN]")
-                subs  += c.count("[FOUND]") if "subdomain" in nome else 0
+                vulns += c.count("[VULN]") + c.count("[CRÍTICO]")
+                ports += c.count("[ABERTO]")
+                subs  += c.count("[ENCONTRADO]") if "subdomain" in nome else 0
             except:
                 pass
             mod = nome.replace(t + "_", "").split("_2")[0]
@@ -507,25 +508,25 @@ def dashboard():
             if m and m.group(1) > last_scan:
                 last_scan = m.group(1)
 
-        risk     = R + "HIGH  " + X if vulns > 3 else (R + "MED   " + X if vulns > 0 or ports > 3 else G + "LOW   " + X)
+        risk     = R + "ALTO  " + X if vulns > 3 else (R + "MED   " + X if vulns > 0 or ports > 3 else G + "BAIXO " + X)
         scan_fmt = last_scan[6:8] + "/" + last_scan[4:6] + "/" + last_scan[:4] if last_scan else "?"
 
         print(D + "  ┌─ " + X + R + t + X)
-        print(D + "  │  Risk    : " + X + risk)
-        print(D + "  │  Vulns   : " + X + (R if vulns > 0 else G) + str(vulns) + X + D + "  Ports: " + X + str(ports) + D + "  Subs: " + X + str(subs))
-        print(D + "  │  Modules : " + X + D + ", ".join(modulos[:5]) + ("..." if len(modulos) > 5 else "") + X)
-        print(D + "  │  Last    : " + X + D + scan_fmt + X)
+        print(D + "  │  Risco   : " + X + risk)
+        print(D + "  │  Vulns   : " + X + (R if vulns > 0 else G) + str(vulns) + X + D + "  Portas: " + X + str(ports) + D + "  Subs: " + X + str(subs))
+        print(D + "  │  Modulos : " + X + D + ", ".join(modulos[:5]) + ("..." if len(modulos) > 5 else "") + X)
+        print(D + "  │  Ultimo  : " + X + D + scan_fmt + X)
         print(D + "  └" + "─" * 38 + X)
         print()
 
-    input(R + "  [Press ENTER to return]" + X)
+    input(R + "  [Pressione ENTER para voltar]" + X)
 
 
-# EXPORT GRAPH
+# EXPORTAR GRAFO
 
 def export_graph():
     if not os.path.exists(LOG_DIR):
-        print("\n" + D + "  No reports saved yet." + X + "\n")
+        print("\n" + D + "  Nenhum relatorio salvo ainda." + X + "\n")
         return
 
     targets_disp = sorted(set(
@@ -534,17 +535,17 @@ def export_graph():
     ))
 
     if not targets_disp:
-        print("\n" + D + "  No reports found." + X + "\n")
+        print("\n" + D + "  Nenhum relatorio encontrado." + X + "\n")
         return
 
-    print("\n" + R + "  === INTELLIGENCE GRAPH ===" + X + "\n")
-    print(D + "  Available targets:" + X + "\n")
+    print("\n" + R + "  === GRAFO DE INTELIGENCIA ===" + X + "\n")
+    print(D + "  Alvos disponiveis:" + X + "\n")
     for i, t in enumerate(targets_disp, 1):
         count = len([f for f in os.listdir(LOG_DIR) if f.split("_")[0] == t])
-        print(R + "  [" + str(i) + "] " + t + X + D + " (" + str(count) + " files)" + X)
-    print(R + "  [0] All targets" + X + "\n")
+        print(R + "  [" + str(i) + "] " + t + X + D + " (" + str(count) + " arquivos)" + X)
+    print(R + "  [0] Todos os alvos" + X + "\n")
 
-    escolha = input(R + "  Filter target: " + X).strip()
+    escolha = input(R + "  Filtrar alvo: " + X).strip()
     if escolha == "0" or escolha == "":
         filter_target = None
     else:
@@ -581,27 +582,27 @@ def export_graph():
 
         if "soul" in nome:
             for linha in conteudo.splitlines():
-                if "[FOUND]" in linha and "->" in linha:
-                    site = linha.split("->")[0].replace("[FOUND]", "").strip()
+                if "[ENCONTRADO]" in linha and "->" in linha:
+                    site = linha.split("->")[0].replace("[ENCONTRADO]", "").strip()
                     url  = linha.split("->")[-1].strip()
                     sid  = add_node(site, "social", url)
                     edges.append({"from": tid, "to": sid, "label": "perfil"})
 
         if "subdomains" in nome:
             for linha in conteudo.splitlines():
-                if "[FOUND]" in linha and "->" in linha:
-                    sub = linha.split("[FOUND]")[-1].strip().split("->")[0].strip()
+                if "[ENCONTRADO]" in linha and "->" in linha:
+                    sub = linha.split("[ENCONTRADO]")[-1].strip().split("->")[0].strip()
                     ip  = linha.split("->")[-1].strip()
                     sid = add_node(sub, "subdomain", ip)
                     edges.append({"from": tid, "to": sid, "label": "sub"})
 
         if "hellscan" in nome:
             for linha in conteudo.splitlines():
-                if "[OPEN]" in linha and "->" in linha:
-                    porta = linha.replace("[OPEN]", "").strip().split("->")[0].strip()
+                if "[ABERTO]" in linha and "->" in linha:
+                    porta = linha.replace("[ABERTO]", "").strip().split("->")[0].strip()
                     serv  = linha.split("->")[-1].strip()
                     pid   = add_node(porta, "port", serv)
-                    edges.append({"from": tid, "to": pid, "label": "port"})
+                    edges.append({"from": tid, "to": pid, "label": "porta"})
 
         if "vulnscan" in nome:
             for linha in conteudo.splitlines():
@@ -612,8 +613,8 @@ def export_graph():
 
         if "tech_fingerprint" in nome:
             for linha in conteudo.splitlines():
-                if "[FOUND]" in linha:
-                    tech = linha.replace("[FOUND]", "").strip()
+                if "[ENCONTRADO]" in linha:
+                    tech = linha.replace("[ENCONTRADO]", "").strip()
                     if tech:
                         techid = add_node(tech, "tech")
                         edges.append({"from": tid, "to": techid, "label": "tech"})
@@ -641,12 +642,12 @@ def export_graph():
     os.makedirs(os.path.dirname(out), exist_ok=True)
 
     legend = [
-        ("target",    "#c00", "Target principal"),
-        ("social",    "#0c4", "Social profiles"),
-        ("subdomain", "#44f", "Subdomains"),
-        ("port",      "#f44", "Open ports"),
-        ("vuln",      "#ff0", "Vulnerabilities"),
-        ("tech",      "#f0f", "Technologies"),
+        ("target",    "#c00", "Alvo principal"),
+        ("social",    "#0c4", "Perfis sociais"),
+        ("subdomain", "#44f", "Subdominios"),
+        ("port",      "#f44", "Portas abertas"),
+        ("vuln",      "#ff0", "Vulnerabilidades"),
+        ("tech",      "#f0f", "Tecnologias"),
         ("isp",       "#0ff", "ISP / ASN"),
         ("ssl",       "#fa0", "SSL / CA"),
     ]
@@ -655,11 +656,11 @@ def export_graph():
         legend_html += f'<div class="li"><span style="background:{cor}"></span>{nome_l}</div>'
       
 html = """<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CERBERUS GRAPH</title>
+<title>GRAFO CERBERUS</title>
 <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
@@ -793,16 +794,16 @@ body {
 <body>
 
 <div id="hd">
-  <h1>&#9760; CERBERUS GRAPH &nbsp;<small>""" + (filter_target or "ALL TARGETS") + """</small></h1>
-  <p>""" + str(len(nodes)) + """ nodes &nbsp;·&nbsp; """ + str(len(edges)) + """ edges &nbsp;·&nbsp; """ + timestamp + """</p>
+  <h1>&#9760; GRAFO CERBERUS &nbsp;<small>""" + (filter_target or "TODOS OS ALVOS") + """</small></h1>
+  <p>""" + str(len(nodes)) + """ nos &nbsp;·&nbsp; """ + str(len(edges)) + """ conexoes &nbsp;·&nbsp; """ + timestamp + """</p>
 </div>
 
 <div id="legend">""" + legend_html + """</div>
 <div id="mynetwork"></div>
 <div id="info"></div>
 
-<button id="cls" onclick="network.fit()">&#8635; reset view</button>
-<input id="search" type="text" placeholder="search node...">
+<button id="cls" onclick="network.fit()">&#8635; resetar visualizacao</button>
+<input id="search" type="text" placeholder="buscar no...">
 
 <script>
 var nodesDS = new vis.DataSet(""" + _json.dumps(nodes) + """);
@@ -885,22 +886,22 @@ document.getElementById("search").addEventListener("keydown", function(e) {
 
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)
-    print(G + "  Graph generated!" + X)
-    print(R + "  File: " + X + out)
-    print(D + "  Serve: cd ~/cerberus/reports && python -m http.server 8080" + X + "\n")
+    print(G + "  Grafo gerado!" + X)
+    print(R + "  Arquivo: " + X + out)
+    print(D + "  Servir: cd ~/cerberus/reports && python -m http.server 8080" + X + "\n")
 
 
-# VISUALIZE MENU
+# MENU VISUALIZAR
 
 def visualize_menu(target):
     from modules.visualize import analyze, tree_view, timeline
-    print("\n" + R + "  === VISUALIZE ===" + X + "\n")
-    print(R + "  [1] ANALYZE       -> intelligence report" + X)
-    print(R + "  [2] TREE          -> discovery tree" + X)
-    print(R + "  [3] TIMELINE      -> exposure timeline" + X)
-    print(R + "  [4] INTEL GRAPH   -> visual HTML graph" + X)
-    print(R + "  [9] Back" + X + "\n")
-    sub = get_input("  Choose: ")
+    print("\n" + R + "  === VISUALIZAR ===" + X + "\n")
+    print(R + "  [1] ANALYZE       -> relatorio de inteligencia" + X)
+    print(R + "  [2] TREE          -> arvore de descoberta" + X)
+    print(R + "  [3] TIMELINE      -> linha do tempo de exposicao" + X)
+    print(R + "  [4] INTEL GRAPH   -> grafo visual em HTML" + X)
+    print(R + "  [9] Voltar" + X + "\n")
+    sub = get_input("  Escolha: ")
     if sub == "1":
         analyze(target)
     elif sub == "2":
@@ -912,7 +913,7 @@ def visualize_menu(target):
     elif sub == "9":
         return
     
-# CORRELATE
+# CORRELACIONAR
 def correlate_run(username, target):
     correlate(username, target)
 
@@ -929,8 +930,8 @@ def main():
 
     while True:
         if not target:
-            print(R + "\n  [CERBERUS] Define your target first." + X)
-            target = input(R + "  Target: " + X).strip()
+            print(R + "\n  [CERBERUS] Defina seu alvo primeiro." + X)
+            target = input(R + "  Alvo: " + X).strip()
             if not target:
                 continue
 
@@ -938,17 +939,17 @@ def main():
         choice = get_input()
 
         if choice == "0":
-            print("\n" + R + "  All souls have been judged. Goodbye." + X + "\n")
+            print("\n" + R + "  Todas as almas foram julgadas. Ate logo." + X + "\n")
             break
         elif choice == "t":
-            target = input(R + "  Set target: " + X).strip()
+            target = input(R + "  Definir alvo: " + X).strip()
         elif choice == "1":
-            user = input(R + "  Username: " + X).strip()
+            user = input(R + "  Usuario: " + X).strip()
             soul_search(user)
         elif choice == "2":
-            print("\n" + R + "  [a] Domain WHOIS / DNS / Headers" + X)
-            print(R + "  [b] IP Geolocation" + X + "\n")
-            sub = get_input("  Choose: ")
+            print("\n" + R + "  [a] WHOIS de dominio / DNS / Cabecalhos" + X)
+            print(R + "  [b] Geolocalizacao de IP" + X + "\n")
+            sub = get_input("  Escolha: ")
             if sub == "a":
                 domain_curse(target)
             elif sub == "b":
@@ -958,9 +959,9 @@ def main():
         elif choice == "4":
             dorks()
         elif choice == "5":
-            print("\n" + R + "  [a] Subdomain Finder" + X)
-            print(R + "  [b] Email Lookup" + X + "\n")
-            sub = get_input("  Choose: ")
+            print("\n" + R + "  [a] Localizador de subdominios" + X)
+            print(R + "  [b] Busca de email" + X + "\n")
+            sub = get_input("  Escolha: ")
             if sub == "a":
                 subdomain_finder(target)
             elif sub == "b":
@@ -992,7 +993,7 @@ def main():
         elif choice == "l":
             limpar_logs()
         else:
-            print(R + "\n  Invalid option." + X + "\n")
+            print(R + "\n  Opcao invalida." + X + "\n")
 
 if __name__ == "__main__":
     main()
