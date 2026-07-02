@@ -64,17 +64,17 @@ def domain_curse(target):
             w     = whois_lib.whois(target)
             bloco = "[WHOIS]\n"
             bloco += "  Registrar : " + str(w.registrar) + "\n"
-            bloco += "  Created   : " + formatar_data(w.creation_date) + "\n"
-            bloco += "  Expires   : " + formatar_data(w.expiration_date) + "\n"
-            bloco += "  Owner     : " + str(w.org) + "\n\n"
+            bloco += "  Criado em : " + formatar_data(w.creation_date) + "\n"
+            bloco += "  Expira em : " + formatar_data(w.expiration_date) + "\n"
+            bloco += "  Dono      : " + str(w.org) + "\n\n"
             print(R + "  [WHOIS]" + X)
             for linha in bloco.splitlines()[1:]:
                 print(D + linha + X)
             saida += bloco
         except Exception as e:
-            print(R + "  [WHOIS] Error: " + str(e) + X + "\n")
+            print(R + "  [WHOIS] Erro: " + str(e) + X + "\n")
     else:
-        print(R + "  [WHOIS] Not installed. Run: pip install python-whois" + X + "\n")
+        print(R + "  [WHOIS] Não instalado. Rode: pip install python-whois" + X + "\n")
 
     try:
         print("\n" + R + "  [DNS]" + X)
@@ -86,11 +86,11 @@ def domain_curse(target):
                 print(D + linha + X)
                 bloco += linha + "\n"
         else:
-            print(D + "  No records found" + X)
-            bloco += "  No records found\n"
+            print(D + "  Nenhum registro encontrado" + X)
+            bloco += "  Nenhum registro encontrado\n"
         saida += bloco + "\n"
     except Exception as e:
-        print(R + "  [DNS] Error: " + str(e) + X + "\n")
+        print(R + "  [DNS] Erro: " + str(e) + X + "\n")
 
     try:
         print("\n" + R + "  [HEADERS]" + X)
@@ -99,16 +99,16 @@ def domain_curse(target):
                              headers=get_headers(), proxies=get_proxies())
         for h in ["Server", "X-Powered-By", "Content-Type",
                   "X-Frame-Options", "Strict-Transport-Security"]:
-            val  = res.headers.get(h, "not found")
+            val  = res.headers.get(h, "não encontrado")
             linha = "  " + h.ljust(30) + ": " + val
             print(D + linha + X)
             bloco += linha + "\n"
         saida += bloco + "\n"
     except Exception as e:
-        print(R + "  [HEADERS] Error: " + str(e) + X + "\n")
+        print(R + "  [HEADERS] Erro: " + str(e) + X + "\n")
 
     caminho = grimoire_salvar(target, "domain_curse", saida)
-    print("\n" + R + "  Report saved: " + X + caminho + "\n")
+    print("\n" + R + "  Relatório salvo: " + X + caminho + "\n")
 
 
 def ip_recon(target):
@@ -126,16 +126,16 @@ def ip_recon(target):
         d = r.json()
         if d.get("success"):
             campos = [
-                ("IP",        d.get("ip")),
-                ("Country",   d.get("country")),
-                ("Region",    d.get("region")),
-                ("City",      d.get("city")),
-                ("ZIP",       d.get("postal")),
-                ("Latitude",  d.get("latitude")),
-                ("Longitude", d.get("longitude")),
-                ("Timezone",  (d.get("timezone") or {}).get("id")),
-                ("ISP",       (d.get("connection") or {}).get("isp")),
-                ("ASN",       (d.get("connection") or {}).get("asn")),
+                ("IP",         d.get("ip")),
+                ("País",       d.get("country")),
+                ("Região",     d.get("region")),
+                ("Cidade",     d.get("city")),
+                ("CEP",        d.get("postal")),
+                ("Latitude",   d.get("latitude")),
+                ("Longitude",  d.get("longitude")),
+                ("Fuso horário", (d.get("timezone") or {}).get("id")),
+                ("ISP",        (d.get("connection") or {}).get("isp")),
+                ("ASN",        (d.get("connection") or {}).get("asn")),
             ]
     except:
         pass
@@ -150,16 +150,16 @@ def ip_recon(target):
             d = r.json()
             if d.get("status") == "success":
                 campos = [
-                    ("IP",        d.get("query")),
-                    ("Country",   d.get("country")),
-                    ("Region",    d.get("regionName")),
-                    ("City",      d.get("city")),
-                    ("ZIP",       d.get("zip")),
-                    ("Latitude",  d.get("lat")),
-                    ("Longitude", d.get("lon")),
-                    ("Timezone",  d.get("timezone")),
-                    ("ISP",       d.get("org")),
-                    ("ASN",       d.get("as")),
+                    ("IP",         d.get("query")),
+                    ("País",       d.get("country")),
+                    ("Região",     d.get("regionName")),
+                    ("Cidade",     d.get("city")),
+                    ("CEP",        d.get("zip")),
+                    ("Latitude",   d.get("lat")),
+                    ("Longitude",  d.get("lon")),
+                    ("Fuso horário", d.get("timezone")),
+                    ("ISP",        d.get("org")),
+                    ("ASN",        d.get("as")),
                 ]
         except:
             pass
@@ -171,32 +171,32 @@ def ip_recon(target):
             d = r.json()
             if d.get("ip"):
                 campos = [
-                    ("IP",        d.get("ip")),
-                    ("Country",   d.get("country_name")),
-                    ("Region",    d.get("region")),
-                    ("City",      d.get("city")),
-                    ("ZIP",       d.get("postal")),
-                    ("Latitude",  d.get("latitude")),
-                    ("Longitude", d.get("longitude")),
-                    ("Timezone",  d.get("timezone")),
-                    ("ISP",       d.get("org")),
-                    ("ASN",       d.get("asn")),
+                    ("IP",         d.get("ip")),
+                    ("País",       d.get("country_name")),
+                    ("Região",     d.get("region")),
+                    ("Cidade",     d.get("city")),
+                    ("CEP",        d.get("postal")),
+                    ("Latitude",   d.get("latitude")),
+                    ("Longitude",  d.get("longitude")),
+                    ("Fuso horário", d.get("timezone")),
+                    ("ISP",        d.get("org")),
+                    ("ASN",        d.get("asn")),
                 ]
         except:
             pass
 
     if not campos:
-        print(R + "  No data returned for this IP." + X + "\n")
+        print(R + "  Nenhum dado retornado para esse IP." + X + "\n")
         return
 
     for chave, val in campos:
-        linha = "  " + chave.ljust(12) + ": " + str(val)
+        linha = "  " + chave.ljust(14) + ": " + str(val)
         print(D + linha + X)
         saida += linha + "\n"
 
     print()
     caminho = grimoire_salvar(target, "ip_recon", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
 
 
 def hellscan(target):
@@ -205,11 +205,11 @@ def hellscan(target):
 
     try:
         ip    = socket.gethostbyname(target)
-        linha = "  IP resolved: " + ip
+        linha = "  IP resolvido: " + ip
         print(D + linha + X + "\n")
         saida += linha + "\n\n"
     except:
-        print(R + "  Could not resolve host." + X + "\n")
+        print(R + "  Não foi possível resolver o host." + X + "\n")
         return 0
 
     abertos = []
@@ -218,30 +218,30 @@ def hellscan(target):
             s = socket.socket()
             s.settimeout(1)
             if s.connect_ex((ip, porta)) == 0:
-                linha = "  [OPEN] " + str(porta).ljust(5) + " -> " + servico
+                linha = "  [ABERTA] " + str(porta).ljust(5) + " -> " + servico
                 print(R + linha + X)
                 abertos.append(linha)
                 saida += linha + "\n"
             else:
-                print(D + "  [----] " + str(porta).ljust(5) + " -> " + servico + X)
+                print(D + "  [----]   " + str(porta).ljust(5) + " -> " + servico + X)
             s.close()
         except:
             pass
 
     print()
-    print(R + "  " + str(len(abertos)) + " open port(s)" + X + "\n")
+    print(R + "  " + str(len(abertos)) + " porta(s) aberta(s)" + X + "\n")
     caminho = grimoire_salvar(target, "hellscan", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
     return len(abertos)
 
 
 def ssl_checker(target):
     host = target.replace("https://", "").replace("http://", "").split("/")[0]
-    print("\n" + R + "  === SSL/TLS CHECKER: " + host + " ===" + X + "\n")
+    print("\n" + R + "  === VERIFICADOR SSL/TLS: " + host + " ===" + X + "\n")
     saida = "[SSL CHECKER] " + host + "\n\n"
     dias  = None
 
-    print(R + "  [CERTIFICATE]" + X)
+    print(R + "  [CERTIFICADO]" + X)
     try:
         ctx  = ssl.create_default_context()
         conn = ctx.wrap_socket(socket.socket(), server_hostname=host)
@@ -259,26 +259,26 @@ def ssl_checker(target):
         except:
             pass
         for chave, val in [
-            ("CN",        subject.get("commonName", "N/A")),
-            ("Issued by", issuer.get("organizationName", "N/A")),
-            ("Valid from",issued),
-            ("Expires on",expiry),
-            ("SANs",      str([x[1] for x in cert.get("subjectAltName", [])[:5]])),
+            ("CN",             subject.get("commonName", "N/A")),
+            ("Emitido por",    issuer.get("organizationName", "N/A")),
+            ("Válido desde",   issued),
+            ("Expira em",      expiry),
+            ("SANs",           str([x[1] for x in cert.get("subjectAltName", [])[:5]])),
         ]:
-            linha = "  " + chave.ljust(14) + ": " + str(val)
+            linha = "  " + chave.ljust(16) + ": " + str(val)
             print(D + linha + X)
             saida += linha + "\n"
         if dias is not None:
             cor = G if dias > 30 else R
-            print(cor + "  Expiration   : " + str(dias) + " days remaining" + X)
-            saida += "  Expiration: " + str(dias) + " days\n"
+            print(cor + "  Expiração    : " + str(dias) + " dias restantes" + X)
+            saida += "  Expiração: " + str(dias) + " dias\n"
     except ssl.SSLCertVerificationError as e:
-        print(R + "  [VULN] Invalid certificate: " + str(e) + X)
-        saida += "  [VULN] Invalid certificate\n"
+        print(R + "  [VULN] Certificado inválido: " + str(e) + X)
+        saida += "  [VULN] Certificado inválido\n"
     except Exception as e:
-        print(R + "  Error: " + str(e) + X)
+        print(R + "  Erro: " + str(e) + X)
 
-    print("\n" + R + "  [TLS VERSIONS]" + X)
+    print("\n" + R + "  [VERSÕES TLS]" + X)
     saida += "\n[TLS]\n"
     versoes = [
         ("TLSv1.0", getattr(ssl.TLSVersion, "TLSv1",   None), True),
@@ -301,13 +301,13 @@ def ssl_checker(target):
             ws.connect((host, 443))
             ws.close()
             if obsoleta:
-                print(R + "  [VULN] " + nome_v + " supported (obsolete!)" + X)
+                print(R + "  [VULN] " + nome_v + " suportado (obsoleto!)" + X)
                 saida += "  [VULN] " + nome_v + "\n"
             else:
-                print(G + "  [OK]   " + nome_v + " supported" + X)
+                print(G + "  [OK]   " + nome_v + " suportado" + X)
                 saida += "  [OK] " + nome_v + "\n"
         except:
-            print(D + "  [---]  " + nome_v + " not supported" + X)
+            print(D + "  [---]  " + nome_v + " não suportado" + X)
             saida += "  [---] " + nome_v + "\n"
 
     print("\n" + R + "  [HSTS]" + X)
@@ -319,14 +319,14 @@ def ssl_checker(target):
             print(G + "  [OK] " + hsts + X)
             saida += "  [OK] HSTS: " + hsts + "\n"
         else:
-            print(R + "  [!] HSTS absent" + X)
-            saida += "  [!] HSTS absent\n"
+            print(R + "  [!] HSTS ausente" + X)
+            saida += "  [!] HSTS ausente\n"
     except Exception as e:
-        print(D + "  Error: " + str(e) + X)
+        print(D + "  Erro: " + str(e) + X)
 
     print()
     caminho = grimoire_salvar(host, "ssl_checker", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
     return dias
 
 
@@ -343,7 +343,7 @@ def tech_fingerprint(target):
         headers = {k.lower(): v for k, v in r.headers.items()}
         cookies = [c.name.lower() for c in r.cookies]
     except Exception as e:
-        print(R + "  Error accessing: " + str(e) + X + "\n")
+        print(R + "  Erro ao acessar: " + str(e) + X + "\n")
         return 0
 
     assinaturas = {
@@ -395,10 +395,10 @@ def tech_fingerprint(target):
                     achado = True; break
         if achado:
             encontrados.append(tech)
-            print(G + "  [FOUND] " + tech + X)
+            print(G + "  [ENCONTRADO] " + tech + X)
             saida += "  [FOUND] " + tech + "\n"
 
-    print("\n" + R + "  [RELEVANT HEADERS]" + X)
+    print("\n" + R + "  [HEADERS RELEVANTES]" + X)
     saida += "\n[HEADERS]\n"
     for h in ["server", "x-powered-by", "x-generator", "content-type"]:
         if h in headers:
@@ -406,9 +406,9 @@ def tech_fingerprint(target):
             print(D + linha + X)
             saida += linha + "\n"
 
-    print("\n" + R + "  " + str(len(encontrados)) + " technology(ies) detected" + X + "\n")
+    print("\n" + R + "  " + str(len(encontrados)) + " tecnologia(s) detectada(s)" + X + "\n")
     caminho = grimoire_salvar(target, "tech_fingerprint", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
     return len(encontrados)
 
 
@@ -416,7 +416,7 @@ def subdomain_finder(target):
     import threading
 
     print("\n" + R + "  === SUBDOMAIN FINDER: " + target + " ===" + X + "\n")
-    print(D + "  Checking " + str(len(WORDLIST)) + " subdomains..." + X + "\n")
+    print(D + "  Checando " + str(len(WORDLIST)) + " subdomínios..." + X + "\n")
 
     founds  = []
     saida   = "[SUBDOMAIN FINDER] " + target + "\n\n"
@@ -482,7 +482,7 @@ def subdomain_finder(target):
             )
 
             with lock:
-                print(G + "  [FOUND] " + host + X)
+                print(G + "  [ENCONTRADO] " + host + X)
                 print(D + "  ├─ IP     : " + ip + X)
                 print(D + "  ├─ Status : " + status + X)
                 print(D + "  ├─ HTTPS  : " + ("Sim" if https_ok else "Não") + X)
@@ -511,12 +511,12 @@ def subdomain_finder(target):
         saida += linha + "\n"
 
     print()
-    print(R + "  " + str(len(founds)) + " subdomain(s) found" + X + "\n")
+    print(R + "  " + str(len(founds)) + " subdomínio(s) encontrado(s)" + X + "\n")
     caminho = grimoire_salvar(target, "subdomains", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
 
     if founds:
-        print(R + "  [DISCOVERY TREE]" + X + "\n")
+        print(R + "  [ÁRVORE DE DESCOBERTA]" + X + "\n")
         print(D + "  " + target + X)
         for i, linha in enumerate(founds):
             host_part = linha.strip().split("[FOUND]")[-1].strip().split("\n")[0].strip()
