@@ -14,8 +14,8 @@ def grimoire_salvar(target, modulo, conteudo):
     caminho = os.path.join(LOG_DIR, nome)
     with open(caminho, "w") as f:
         f.write("CERBERUS - " + modulo.upper() + "\n")
-        f.write("Target  : " + target + "\n")
-        f.write("Date    : " + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\n")
+        f.write("Alvo    : " + target + "\n")
+        f.write("Data    : " + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\n")
         f.write("=" * 45 + "\n\n")
         f.write(conteudo)
     return caminho
@@ -24,74 +24,74 @@ def grimoire_salvar(target, modulo, conteudo):
 def grimoire_listar():
     arquivos = sorted(os.listdir(LOG_DIR)) if os.path.exists(LOG_DIR) else []
     if not arquivos:
-        print("\n" + D + "  No reports saved yet." + X + "\n")
+        print("\n" + D + "  Nenhum relatório salvo ainda." + X + "\n")
         return
     print("\n" + R + "  === GRIMOIRE ===" + X + "\n")
     for i, nome in enumerate(arquivos, 1):
         print(D + "  [" + str(i) + "] " + nome + X)
     print()
-    print(D + "  Use (16) EXPORT HTML to generate visual report." + X + "\n")
+    print(D + "  Use (16) EXPORTAR HTML para gerar relatório visual." + X + "\n")
 
 
 def limpar_logs(target=None):
     if not os.path.exists(LOG_DIR):
-        print("\n" + D + "  No logs found." + X + "\n")
+        print("\n" + D + "  Nenhum log encontrado." + X + "\n")
         return
 
     todos = sorted(os.listdir(LOG_DIR))
     targets_disp = sorted(set(f.split("_")[0] for f in todos if f.endswith(".txt")))
 
     if not targets_disp:
-        print("\n" + D + "  No logs found." + X + "\n")
+        print("\n" + D + "  Nenhum log encontrado." + X + "\n")
         return
 
-    print("\n" + R + "  === CLEAR LOGS ===" + X + "\n")
-    print(D + "  Available targets:" + X + "\n")
+    print("\n" + R + "  === LIMPAR LOGS ===" + X + "\n")
+    print(D + "  Alvos disponíveis:" + X + "\n")
     for i, t in enumerate(targets_disp, 1):
         count = len([f for f in todos if f.split("_")[0] == t])
-        print(R + "  [" + str(i) + "] " + t + X + D + " (" + str(count) + " files)" + X)
-    print(R + "  [0] ALL targets" + X + "\n")
+        print(R + "  [" + str(i) + "] " + t + X + D + " (" + str(count) + " arquivo(s))" + X)
+    print(R + "  [0] TODOS os alvos" + X + "\n")
 
-    escolha = input(R + "  Choose target to delete: " + X).strip()
+    escolha = input(R + "  Escolha o alvo para deletar: " + X).strip()
 
     if escolha == "0":
         arquivos = [f for f in todos if f.endswith(".txt")]
-        label = "ALL"
+        label = "TODOS"
     else:
         try:
             t_escolhido = targets_disp[int(escolha) - 1]
         except:
-            print(R + "  Invalid option." + X + "\n")
+            print(R + "  Opção inválida." + X + "\n")
             return
         arquivos = [f for f in todos if f.split("_")[0] == t_escolhido and f.endswith(".txt")]
         label = t_escolhido
 
     if not arquivos:
-        print(D + "  No files found." + X + "\n")
+        print(D + "  Nenhum arquivo encontrado." + X + "\n")
         return
 
-    print("\n" + D + "  Files to delete:" + X)
+    print("\n" + D + "  Arquivos a deletar:" + X)
     for f in arquivos:
         print(D + "  -> " + f + X)
 
-    confirm = input("\n" + R + "  Delete " + str(len(arquivos)) + " file(s) for [" + label + "]? [y/N]: " + X).strip().lower()
+    confirm = input("\n" + R + "  Deletar " + str(len(arquivos)) + " arquivo(s) de [" + label + "]? [s/N]: " + X).strip().lower()
     if confirm in ["s", "y"]:
         for f in arquivos:
             os.remove(os.path.join(LOG_DIR, f))
-        print(G + "  " + str(len(arquivos)) + " file(s) deleted." + X + "\n")
+        print(G + "  " + str(len(arquivos)) + " arquivo(s) deletado(s)." + X + "\n")
     else:
-        print(D + "  Cancelled." + X + "\n")
+        print(D + "  Cancelado." + X + "\n")
 
 
 def export_html():
     if not os.path.exists(LOG_DIR):
-        print("\n" + D + "  No reports saved yet." + X + "\n")
+        print("\n" + D + "  Nenhum relatório salvo ainda." + X + "\n")
         return
     arquivos = sorted(os.listdir(LOG_DIR))
     if not arquivos:
-        print("\n" + D + "  No reports saved yet." + X + "\n")
+        print("\n" + D + "  Nenhum relatório salvo ainda." + X + "\n")
         return
-    print("\n" + R + "  === EXPORT HTML ===" + X + "\n")
+    print("\n" + R + "  === EXPORTAR HTML ===" + X + "\n")
     reports = []
     for nome in arquivos:
         try:
@@ -110,7 +110,7 @@ def export_html():
     for target_key, target_reports in targets_dict.items():
         cards += '<div class="ts"><div class="th"><h2>&#9760; ' + target_key.upper() + '</h2></div>\n'
         for nome, conteudo in target_reports:
-            modulo = nome.split("_")[1] if len(nome.split("_")) > 1 else "report"
+            modulo = nome.split("_")[1] if len(nome.split("_")) > 1 else "relatorio"
             linhas_html = ""
             for linha in conteudo.split("\n"):
                 ll = linha.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
@@ -127,11 +127,11 @@ def export_html():
         cards += "</div>\n"
 
     html = """<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CERBERUS REPORT """ + timestamp + """</title>
+<title>RELATÓRIO CERBERUS """ + timestamp + """</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -158,16 +158,16 @@ body{background:#080808;color:#c00;font-family:'Share Tech Mono',monospace;paddi
 </head>
 <body>
 <div class="hd">
-<h1>&#9760; CERBERUS INTELLIGENCE REPORT</h1>
-<p>""" + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + """ | github.com/lohjs-0</p>
+<h1>&#9760; RELATÓRIO DE INTELIGÊNCIA CERBERUS</h1>
+<p>""" + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + """ | github.com/llohs</p>
 </div>
 <div class="st">
-<div class="sb"><div class="n">""" + str(len(reports)) + """</div><div class="l">REPORTS</div></div>
-<div class="sb"><div class="n">""" + str(len(targets_dict)) + """</div><div class="l">TARGETS</div></div>
-<div class="sb"><div class="n">""" + timestamp[:8] + """</div><div class="l">DATE</div></div>
+<div class="sb"><div class="n">""" + str(len(reports)) + """</div><div class="l">RELATÓRIOS</div></div>
+<div class="sb"><div class="n">""" + str(len(targets_dict)) + """</div><div class="l">ALVOS</div></div>
+<div class="sb"><div class="n">""" + timestamp[:8] + """</div><div class="l">DATA</div></div>
 </div>
 """ + cards + """
-<div class="ft"><p>CERBERUS v1.3.0 | Use only on authorized targets</p></div>
+<div class="ft"><p>CERBERUS v1.3.0 | Use apenas em alvos autorizados</p></div>
 <script>
 function t(el){const b=el.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block'}
 document.querySelector('.rh')&&t(document.querySelector('.rh'));
@@ -176,8 +176,8 @@ document.querySelector('.rh')&&t(document.querySelector('.rh'));
 
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(html)
-    print(G + "  HTML report generated!" + X)
-    print(R + "  File: " + X + html_path + "\n")
+    print(G + "  Relatório HTML gerado!" + X)
+    print(R + "  Arquivo: " + X + html_path + "\n")
 
 
 def export_markdown(target):
@@ -185,35 +185,35 @@ def export_markdown(target):
     pattern = os.path.join(LOG_DIR, base + "*.txt")
     arquivos = sorted(glob.glob(pattern))
     if not arquivos:
-        print("\n" + R + "  No reports found for: " + target + X)
-        print(D + "  Run CHAIN RITUAL first." + X + "\n")
+        print("\n" + R + "  Nenhum relatório encontrado para: " + target + X)
+        print(D + "  Execute o CHAIN RITUAL primeiro." + X + "\n")
         return
-    print("\n" + R + "  === EXPORT MARKDOWN: " + target + " ===" + X + "\n")
+    print("\n" + R + "  === EXPORTAR MARKDOWN: " + target + " ===" + X + "\n")
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     out = os.path.expanduser("~/cerberus/reports/" + base + "_" + timestamp + ".md")
     os.makedirs(os.path.dirname(out), exist_ok=True)
 
-    md  = "# 🔱 CERBERUS REPORT\n\n"
-    md += "**Target:** `" + target + "`  \n"
-    md += "**Date:** " + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "  \n"
-    md += "**Tool:** Cerberus v1.3.0 | github.com/lohjs-0  \n\n"
+    md  = "# 🔱 RELATÓRIO CERBERUS\n\n"
+    md += "**Alvo:** `" + target + "`  \n"
+    md += "**Data:** " + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "  \n"
+    md += "**Ferramenta:** Cerberus v1.3.0 | github.com/llohs  \n\n"
     md += "---\n\n"
 
     sections = {
-        "domain_curse":     "## 🌐 Domain / WHOIS / DNS",
-        "ip_recon":         "## 📍 IP Geolocation",
-        "hellscan":         "## 🔥 Port Scan",
+        "domain_curse":     "## 🌐 Domínio / WHOIS / DNS",
+        "ip_recon":         "## 📍 Geolocalização de IP",
+        "hellscan":         "## 🔥 Varredura de Portas",
         "ssl_checker":      "## 🔒 SSL / TLS",
-        "tech_fingerprint": "## 🧬 Tech Fingerprint",
-        "vulnscan":         "## ⚠️ Vulnerability Scan",
-        "cloud_scan":       "## ☁️ Cloud Storage Scan",
-        "subdomains":       "## 🕸️ Subdomains",
-        "soul":             "## 👤 Social Profiles",
-        "paste_monitor":    "## 🔍 Paste / Leak Monitor",
+        "tech_fingerprint": "## 🧬 Fingerprint de Tecnologia",
+        "vulnscan":         "## ⚠️ Varredura de Vulnerabilidades",
+        "cloud_scan":       "## ☁️ Varredura de Cloud Storage",
+        "subdomains":       "## 🕸️ Subdomínios",
+        "soul":             "## 👤 Perfis Sociais",
+        "paste_monitor":    "## 🔍 Monitor de Pastes / Vazamentos",
         "shodan":           "## 📡 Shodan",
-        "correlation":      "## 🔗 Correlation",
-        "intelligence":     "## 🧠 Intelligence Analysis",
-        "timeline":         "## 📅 Timeline",
+        "correlation":      "## 🔗 Correlação",
+        "intelligence":     "## 🧠 Análise de Inteligência",
+        "timeline":         "## 📅 Linha do Tempo",
     }
 
     covered = set()
@@ -243,14 +243,14 @@ def export_markdown(target):
                 pass
         md += "\n"
 
-    md += "---\n\n## 📊 Summary\n\n"
-    md += "| Module | Status |\n|--------|--------|\n"
+    md += "---\n\n## 📊 Resumo\n\n"
+    md += "| Módulo | Status |\n|--------|--------|\n"
     for modulo, header in sections.items():
-        status = "✅ Done" if modulo in covered else "⬜ Not run"
+        status = "✅ Concluído" if modulo in covered else "⬜ Não executado"
         md += "| " + header.replace("## ", "") + " | " + status + " |\n"
-    md += "\n---\n*Generated by Cerberus v1.3.0*\n"
+    md += "\n---\n*Gerado por Cerberus v1.3.0*\n"
 
     with open(out, "w", encoding="utf-8") as f:
         f.write(md)
-    print(G + "  Markdown report generated!" + X)
-    print(R + "  File: " + X + out + "\n")
+    print(G + "  Relatório Markdown gerado!" + X)
+    print(R + "  Arquivo: " + X + out + "\n")
