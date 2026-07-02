@@ -81,9 +81,9 @@ echo ""
 echo ""
 sleep 0.6
 
-type_out "  somewhere between the living and the dead..." 0.03 "$DR"
+type_out "  em algum lugar entre os vivos e os mortos..." 0.03 "$DR"
 sleep 0.8
-type_out "  a door opens." 0.06 "$R"
+type_out "  uma porta se abre." 0.06 "$R"
 sleep 1.2
 
 clear
@@ -151,15 +151,15 @@ sleep 0.4
 echo ""
 flicker "  ══════════════════════════════════════"
 sleep 0.1
-flicker "  THREE HEADS.  ONE JUDGMENT.  NO MERCY."
+flicker "  TRÊS CABEÇAS.  UM SÓ JULGAMENTO.  SEM PIEDADE."
 sleep 0.1
 flicker "  ══════════════════════════════════════"
 echo ""
 sleep 0.6
 
-type_out "  the beast stirs..." 0.05 "$DR"
+type_out "  a besta desperta..." 0.05 "$DR"
 sleep 0.4
-type_out "  binding to your machine..." 0.04 "$R"
+type_out "  vinculando-se à sua máquina..." 0.04 "$R"
 sleep 0.8
 
 echo ""
@@ -170,27 +170,27 @@ if [[ "$OSTYPE" == "linux-android"* ]] || [ -d "/data/data/com.termux" ]; then
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     ENV="linux"
 else
-    ENV="unknown"
+    ENV="desconhecido"
 fi
 
-echo -e "${DR}  [+] environment  : ${R}${ENV}${X}"
+echo -e "${DR}  [+] ambiente        : ${R}${ENV}${X}"
 sleep 0.15
-echo -e "${DR}  [+] install dir  : ${D}${INSTALL_DIR}${X}"
+echo -e "${DR}  [+] pasta instalação: ${D}${INSTALL_DIR}${X}"
 sleep 0.15
-echo -e "${DR}  [+] command dir  : ${D}${BIN_DIR}${X}"
+echo -e "${DR}  [+] pasta comando   : ${D}${BIN_DIR}${X}"
 sleep 0.15
 echo ""
 sleep 0.5
 
-echo -e "${DR}  ▶ HEAD I   ${R}checking dependencies...${X}"
+echo -e "${DR}  ▶ CABEÇA I   ${R}verificando dependências...${X}"
 sleep 0.3
 
 MISSING=()
 for dep in python3 git curl; do
-    echo -ne "${DR}    scanning for ${dep}...${X}"
+    echo -ne "${DR}    procurando por ${dep}...${X}"
     sleep 0.3
     if ! command -v "$dep" &>/dev/null; then
-        echo -e " ${R}[MISSING]${X}"
+        echo -e " ${R}[AUSENTE]${X}"
         MISSING+=("$dep")
     else
         echo -e " ${G}[OK]${X}"
@@ -199,57 +199,57 @@ done
 
 if [ ${#MISSING[@]} -ne 0 ]; then
     echo ""
-    type_out "  [!] missing teeth: ${MISSING[*]}" 0.03 "$R"
-    type_out "  [~] growing them back..." 0.03 "$Y"
+    type_out "  [!] dentes faltando: ${MISSING[*]}" 0.03 "$R"
+    type_out "  [~] fazendo eles crescerem de novo..." 0.03 "$Y"
     echo ""
     if [ "$ENV" = "termux" ]; then
         pkg install -y "${MISSING[@]}"
     elif command -v apt &>/dev/null; then
         sudo apt update -qq && sudo apt install -y "${MISSING[@]}"
     else
-        echo -e "${R}  [!] cannot auto-install. please install: ${MISSING[*]}${X}"
+        echo -e "${R}  [!] não foi possível instalar automaticamente. instale manualmente: ${MISSING[*]}${X}"
         exit 1
     fi
 fi
 
 echo ""
-echo -e "${G}  [✓] HEAD I complete — all dependencies satisfied.${X}"
+echo -e "${G}  [✓] CABEÇA I completa — todas as dependências satisfeitas.${X}"
 echo ""
 sleep 0.5
 
-echo -e "${DR}  ▶ HEAD II  ${R}opening the gates...${X}"
+echo -e "${DR}  ▶ CABEÇA II  ${R}abrindo os portões...${X}"
 sleep 0.3
 
-progress_bar "cloning" 1.8
+progress_bar "clonando" 1.8
 
 if [ -d "$INSTALL_DIR/.git" ]; then
-    echo -e "${Y}  [~] cerberus already prowls here. updating...${X}"
+    echo -e "${Y}  [~] o cerberus já ronda por aqui. atualizando...${X}"
     git -C "$INSTALL_DIR" pull --quiet
 else
     git clone --quiet "$REPO" "$INSTALL_DIR"
 fi
 
 if [ $? -ne 0 ]; then
-    echo -e "${R}  [!] failed to open the gates.${X}"
+    echo -e "${R}  [!] falha ao abrir os portões.${X}"
     exit 1
 fi
 
 echo ""
-echo -e "${G}  [✓] HEAD II complete — repository ready.${X}"
+echo -e "${G}  [✓] CABEÇA II completa — repositório pronto.${X}"
 echo ""
 sleep 0.5
 
-echo -e "${DR}  ▶ HEAD III ${R}feeding the beast...${X}"
+echo -e "${DR}  ▶ CABEÇA III ${R}alimentando a besta...${X}"
 sleep 0.3
 
-progress_bar "installing" 2.0
+progress_bar "instalando" 2.0
 
 if command -v pip3 &>/dev/null; then
     PIP="pip3"
 elif command -v pip &>/dev/null; then
     PIP="pip"
 else
-    type_out "  [~] pip not found. installing..." 0.03 "$Y"
+    type_out "  [~] pip não encontrado. instalando..." 0.03 "$Y"
     if [ "$ENV" = "termux" ]; then
         pkg install -y python
     elif command -v apt &>/dev/null; then
@@ -266,7 +266,7 @@ else
 fi
 
 echo ""
-echo -e "${G}  [✓] HEAD III complete — packages installed.${X}"
+echo -e "${G}  [✓] CABEÇA III completa — pacotes instalados.${X}"
 echo ""
 sleep 0.5
 
@@ -293,15 +293,15 @@ export PATH="$BIN_DIR:$PATH"
 sleep 0.3
 echo ""
 
-type_out "  the ritual is complete." 0.05 "$DR"
+type_out "  o ritual está completo." 0.05 "$DR"
 sleep 0.5
-type_out "  cerberus is bound to your machine." 0.04 "$R"
+type_out "  o cerberus está vinculado à sua máquina." 0.04 "$R"
 sleep 0.4
 
 echo ""
 
 for i in 3 2 1; do
-    echo -ne "\r${DR}  awakening in ${R}${i}${DR}...${X}"
+    echo -ne "\r${DR}  despertando em ${R}${i}${DR}...${X}"
     sleep 0.8
 done
 echo ""
@@ -318,27 +318,27 @@ echo ""
 flicker "  ══════════════════════════════════════"
 sleep 0.05
 
-echo -e "${BR}${BL}           ⚠  CERBERUS IS ALIVE  ⚠          ${X}"
+echo -e "${BR}${BL}          ⚠  O CERBERUS ESTÁ VIVO  ⚠         ${X}"
 
 flicker "  ══════════════════════════════════════"
 echo ""
 sleep 0.3
 
-echo -e "${G}  [✓] installed  ${D}→  ${R}cerberus${X}"
-echo -e "${G}  [✓] version    ${D}→  ${R}v1.3.0${X}"
-echo -e "${G}  [✓] location   ${D}→  ${D}${INSTALL_DIR}${X}"
+echo -e "${G}  [✓] instalado   ${D}→  ${R}cerberus${X}"
+echo -e "${G}  [✓] versão      ${D}→  ${R}v1.3.0${X}"
+echo -e "${G}  [✓] local       ${D}→  ${D}${INSTALL_DIR}${X}"
 echo ""
 echo -e "${DR}  ──────────────────────────────────────${X}"
 echo ""
-echo -e "${D}  run: ${R}cerberus${X}"
+echo -e "${D}  execute: ${R}cerberus${X}"
 echo ""
-echo -e "${DR}  use only on authorized targets.${X}"
-echo -e "${DR}  all souls pass through here.${X}"
+echo -e "${DR}  use apenas em alvos autorizados.${X}"
+echo -e "${DR}  todas as almas passam por aqui.${X}"
 echo ""
 
 if ! command -v cerberus &>/dev/null; then
-    echo -e "${Y}  [!] if 'cerberus' is not found yet, run:${X}"
+    echo -e "${Y}  [!] se 'cerberus' ainda não for encontrado, execute:${X}"
     echo -e "${D}      source ~/${SHELL_RC##*/}${X}"
-    echo -e "${D}      or: cd ${INSTALL_DIR} && python3 cerberus.py${X}"
+    echo -e "${D}      ou: cd ${INSTALL_DIR} && python3 cerberus.py${X}"
     echo ""
 fi
