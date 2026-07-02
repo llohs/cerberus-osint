@@ -47,7 +47,7 @@ get_info() {
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         ENV_TAG="macos"
     else
-        ENV_TAG="unknown"
+        ENV_TAG="desconhecido"
     fi
 }
 
@@ -104,28 +104,28 @@ glitch_line "\\____/\\___|_|  |_.__/ \\___|_|   \\__,_|___/ "
 echo ""
 
 flicker "  ══════════════════════════════════════"
-echo -e "${DR}        three heads.  one judgment.  no mercy.${X}"
+echo -e "${DR}        três cabeças.  um só julgamento.  sem piedade.${X}"
 flicker "  ══════════════════════════════════════"
 echo ""
 sleep 0.2
 
-echo -e "${DR}  ┌─ soul recognized ──────────────────────┐${X}"
+echo -e "${DR}  ┌─ alma reconhecida ─────────────────────┐${X}"
 sleep 0.08
-echo -e "${DR}  │  ${D}operator  ${R}${USER_NAME}${DR}@${R}${HOST_NAME}${X}"
+echo -e "${DR}  │  ${D}operador  ${R}${USER_NAME}${DR}@${R}${HOST_NAME}${X}"
 sleep 0.08
-echo -e "${DR}  │  ${D}environ   ${R}${ENV_TAG}${X}"
+echo -e "${DR}  │  ${D}ambiente  ${R}${ENV_TAG}${X}"
 sleep 0.08
 echo -e "${DR}  │  ${D}kernel    ${R}${KERNEL}${X}"
 sleep 0.08
-echo -e "${DR}  │  ${D}version   ${R}v1.3.0${X}"
+echo -e "${DR}  │  ${D}versão    ${R}v1.3.0${X}"
 sleep 0.08
 echo -e "${DR}  └────────────────────────────────────────┘${X}"
 echo ""
 sleep 0.15
 
-echo -e "${DR}  you may pass.${X}"
+echo -e "${DR}  você pode passar.${X}"
 sleep 0.3
-echo -e "${DR}  use only on authorized targets.${X}"
-echo -e "${DR}  all souls pass through here.${X}"
+echo -e "${DR}  use apenas em alvos autorizados.${X}"
+echo -e "${DR}  todas as almas passam por aqui.${X}"
 echo ""
 sleep 0.3
