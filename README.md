@@ -31,84 +31,84 @@
 / /__|  __/ |  | |_) |  __/ |  | |_| \__ \
 \____/\___|_|  |_.__/ \___|_|   \__,_|___/
 
-        OSINT & SECURITY ANALYSIS — v1.3.0
+        ANALISE OSINT & SEGURANCA — v1.3.0
 ```
 
-> Use Cerberus only on systems you own or have explicit permission to test. Unauthorized scanning is illegal.
+> Use o Cerberus apenas em sistemas que você possui ou tem permissão explícita para testar. Escaneamento não autorizado é ilegal.
 
 ---
 
-## What is Cerberus?
+## O que é o Cerberus?
 
-Cerberus is a modular OSINT, recon, and security analysis tool built in Python.
+O Cerberus é uma ferramenta modular de OSINT, recon e análise de segurança construída em Python.
 
-Inspired by the three-headed guardian of the underworld, it watches a target from three angles simultaneously — **OSINT**, **RECON**, and **SECURITY** — and delivers a final judgment on exposure risk.
+Inspirado no guardião de três cabeças do submundo, ele observa um alvo sob três ângulos simultaneamente — **OSINT**, **RECON** e **SEGURANÇA** — e entrega um veredito final sobre o risco de exposição.
 
-Most tools dump raw data. Cerberus turns that data into intelligence: it interprets findings, explains their impact, maps the attack surface visually, tracks exposure over time, and scores the target across three dimensions before issuing a verdict.
-
----
-
-## The Three Heads
-
-```
-HEAD I   -> OSINT      social footprint, subdomains, leaks, geolocation
-HEAD II  -> RECON      ports, SSL/TLS, tech stack, fingerprinting
-HEAD III -> SECURITY   vulnerabilities, CVEs, injection vectors, exposed paths
-```
-
-When you run **CHAIN RITUAL (12)**, all three heads analyze the target in sequence and produce a scored judgment:
-
-```
-======================================
-         CERBERUS  JUDGMENT
-======================================
-
-HEAD I   (OSINT)     [####..............] 20/100
-HEAD II  (RECON)     [######............] 30/100
-HEAD III (SECURITY)  [#############.....] 65/100
-
-OVERALL RISK         [#######...........] 38/100
-
-[EVIDENCE]
--> IP resolved: 4.228.31.150
--> 2 open port(s) detected
--> 6 MEDIUM severity issue(s) found
--> 5 CVE(s) associated with target
-
-VERDICT : MINOR SINS
-Some weaknesses found. Low but not negligible risk.
-
-======================================
-```
-
-Verdicts scale with risk: `SOUL IS CLEAN` → `MINOR SINS` → `WATCH CLOSELY` → `CONDEMNED`.
+A maioria das ferramentas apenas despeja dados brutos. O Cerberus transforma esses dados em inteligência: interpreta os achados, explica seu impacto, mapeia a superfície de ataque visualmente, rastreia a exposição ao longo do tempo e pontua o alvo em três dimensões antes de emitir um veredito.
 
 ---
 
-## Install
+## As Três Cabeças
+
+```
+CABECA I   -> OSINT      pegada social, subdominios, vazamentos, geolocalizacao
+CABECA II  -> RECON      portas, SSL/TLS, stack de tecnologia, fingerprinting
+CABECA III -> SEGURANCA  vulnerabilidades, CVEs, vetores de injecao, caminhos expostos
+```
+
+Quando você executa o **CHAIN RITUAL (12)**, as três cabeças analisam o alvo em sequência e produzem um veredito pontuado:
+
+```
+======================================
+         VEREDITO DO CERBERUS
+======================================
+
+CABECA I   (OSINT)     [####..............] 20/100
+CABECA II  (RECON)     [######............] 30/100
+CABECA III (SEGURANCA) [#############.....] 65/100
+
+RISCO GERAL             [#######...........] 38/100
+
+[EVIDENCIAS]
+-> IP resolvido: 4.228.31.150
+-> 2 porta(s) aberta(s) detectada(s)
+-> 6 problema(s) de severidade MEDIA encontrado(s)
+-> 5 CVE(s) associado(s) ao alvo
+
+VEREDITO : PEQUENOS PECADOS
+Algumas fraquezas encontradas. Risco baixo, mas nao desprezivel.
+
+======================================
+```
+
+Os veredictos escalam com o risco: `ALMA LIMPA` → `PEQUENOS PECADOS` → `OBSERVAR DE PERTO` → `CONDENADO`.
+
+---
+
+## Instalação
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/llohs/cerberus-osint/main/install.sh | bash
 ```
 
-## Run
+## Executar
 
 ```bash
 cerberus
 ```
 
-> **Note:** The installer places Cerberus in `~/.cerberus/` and creates the `cerberus` command in `~/.local/bin/`. If the command is not found after install, run it directly:
+> **Nota:** O instalador coloca o Cerberus em `~/.cerberus/` e cria o comando `cerberus` em `~/.local/bin/`. Se o comando não for encontrado após a instalação, execute diretamente:
 > ```bash
 > cd ~/.cerberus-osint && python3 cerberus.py
 > ```
 
 ---
 
-## Troubleshooting
+## Solução de Problemas
 
 ### `pip3: command not found`
 
-The installer requires `pip3` to install Python dependencies. If it's missing:
+O instalador precisa do `pip3` para instalar as dependências Python. Se estiver faltando:
 
 ```bash
 sudo apt update && sudo apt install -y python3-pip
@@ -117,13 +117,13 @@ bash install.sh
 
 ### `cerberus: command not found`
 
-`~/.local/bin` may not be in your `PATH`. Either run directly:
+`~/.local/bin` pode não estar no seu `PATH`. Você pode executar diretamente:
 
 ```bash
 cd ~/.cerberus && python3 cerberus.py
 ```
 
-Or add it to your PATH permanently:
+Ou adicionar ao seu PATH permanentemente:
 
 ```bash
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
@@ -131,19 +131,19 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 
 ### `can't open file '/path/to/cerberus.py'`
 
-You're running `python3 cerberus.py` from the wrong directory. The installer puts the files in `~/.cerberus/`, not the folder you cloned manually. Navigate there first:
+Você está executando `python3 cerberus.py` no diretório errado. O instalador coloca os arquivos em `~/.cerberus/`, não na pasta que você clonou manualmente. Navegue até lá primeiro:
 
 ```bash
 cd ~/.cerberus && python3 cerberus.py
 ```
 
-### WSL / Windows users
+### Usuários de WSL / Windows
 
-If you're running Cerberus under WSL, make sure you're working inside the Linux filesystem (`~`) and not a Windows path (`/mnt/c/...`). Running from `/mnt/c/` can cause permission and path resolution issues.
+Se você está rodando o Cerberus no WSL, garanta que está trabalhando dentro do sistema de arquivos Linux (`~`) e não em um caminho do Windows (`/mnt/c/...`). Rodar a partir de `/mnt/c/` pode causar problemas de permissão e resolução de caminho.
 
 ```bash
-# Recommended: copy to Linux home first
-cp -r /mnt/c/Users/<you>/cerberus ~/.cerberus
+# Recomendado: copie para a home do Linux primeiro
+cp -r /mnt/c/Users/<voce>/cerberus ~/.cerberus
 cd ~/.cerberus && python3 cerberus.py
 ```
 
@@ -152,188 +152,190 @@ cd ~/.cerberus && python3 cerberus.py
 ## Menu
 
 ```
-  ┌─ COLLECTION / RECON ───────────────────────────────────┐
-  │  (1) SOUL SEARCH    -> username / socials              │
-  │  (2) DOMAIN CURSE   -> domain / IP / DNS               │
-  │  (3) HELLSCAN       -> ports / services                │
-  │  (4) DORKS          -> google dorks                    │
-  │  (5) UNDERWORLD     -> subdomains / email              │
-  │  (6) SSL CHECK      -> certificate / TLS               │
-  │  (7) TECH SCAN      -> stack / frameworks / CMS        │
-  ├─ ANALYSIS / SECURITY ──────────────────────────────────┤
-  │  (8)  VULNSCAN      -> web vulnerabilities             │
-  │  (9)  CVE LOOKUP    -> search NVD by product           │
-  │  (10) PASTE MONITOR -> leaks / public pastes           │
-  │  (11) CLOUD SCAN    -> S3 / Firebase / GCP / Azure     │
-  ├─ AUTOMATION ───────────────────────────────────────────┤
-  │  (12) CHAIN RITUAL  -> full pipeline                   │
-  ├─ REPORTS / VISUALIZATION ──────────────────────────────┤
-  │  (13) GRIMOIRE      -> reports / list / export         │
-  │  (14) VISUALIZE     -> analyze / graph / tree /timeline│
-  │  (15) DASHBOARD     -> terminal intelligence summary   │
-  ├─ SYSTEM ───────────────────────────────────────────────┤
-  │  (C)  CONFIGURE     -> APIs / settings                 │
-  │  (X)  TOR           -> anonymous mode / proxy          │
-  │  (L)  CLEAR LOGS    -> delete target logs              │
+  ┌─ COLETA / RECON ────────────────────────────────────────┐
+  │  (1) SOUL SEARCH    -> usuario / redes sociais           │
+  │  (2) DOMAIN CURSE   -> dominio / IP / DNS                │
+  │  (3) HELLSCAN       -> portas / servicos                 │
+  │  (4) DORKS          -> google dorks                      │
+  │  (5) UNDERWORLD     -> subdominios / email                │
+  │  (6) SSL CHECK      -> certificado / TLS                 │
+  │  (7) TECH SCAN      -> stack / frameworks / CMS          │
+  ├─ ANALISE / SEGURANCA ───────────────────────────────────┤
+  │  (8)  VULNSCAN      -> vulnerabilidades web              │
+  │  (9)  CVE LOOKUP    -> buscar no NVD por produto         │
+  │  (10) PASTE MONITOR -> vazamentos / pastes publicos      │
+  │  (11) CLOUD SCAN    -> S3 / Firebase / GCP / Azure       │
+  ├─ AUTOMACAO ──────────────────────────────────────────────┤
+  │  (12) CHAIN RITUAL  -> pipeline completo                 │
+  ├─ RELATORIOS / VISUALIZACAO ─────────────────────────────┤
+  │  (13) GRIMOIRE      -> relatorios / listar / exportar    │
+  │  (14) VISUALIZE     -> analisar / grafo / arvore / linha │
+  │  (15) DASHBOARD     -> resumo de inteligencia no terminal│
+  ├─ SISTEMA ────────────────────────────────────────────────┤
+  │  (C)  CONFIGURE     -> APIs / configuracoes              │
+  │  (X)  TOR           -> modo anonimo / proxy              │
+  │  (L)  CLEAR LOGS    -> apagar logs do alvo               │
   └────────────────────────────────────────────────────────┘
 
-  (T) SET TARGET   -> change target
-  (0) DESCEND      -> exit
+  (T) SET TARGET   -> trocar alvo
+  (0) DESCEND      -> sair
 ```
 
 ---
 
-## Modules
+## Módulos
 
-### Collection / Recon (1–7)
+### Coleta / Recon (1–7)
 
-| # | Module | Description |
+| # | Módulo | Descrição |
 |---|---|---|
-| 1 | SOUL SEARCH | Username lookup across social platforms |
-| 2 | DOMAIN CURSE | `[a]` WHOIS, DNS records, HTTP headers — `[b]` IP geolocation |
-| 3 | HELLSCAN | Port scanner — 15 common ports |
-| 4 | DORKS | 9 preset Google dorks + custom input |
-| 5 | UNDERWORLD | `[a]` Subdomain finder (enriched: IP, status, HTTPS, title, tech, ASN) — `[b]` Email OSINT |
-| 6 | SSL CHECK | Certificate validity, TLS version audit, HSTS |
-| 7 | TECH SCAN | Stack fingerprinting — CMS, frameworks, CDN, analytics |
+| 1 | SOUL SEARCH | Busca de usuário em plataformas sociais |
+| 2 | DOMAIN CURSE | `[a]` WHOIS, registros DNS, cabeçalhos HTTP — `[b]` Geolocalização de IP |
+| 3 | HELLSCAN | Scanner de portas — 15 portas comuns |
+| 4 | DORKS | 9 dorks do Google pré-definidos + entrada personalizada |
+| 5 | UNDERWORLD | `[a]` Localizador de subdomínios (enriquecido: IP, status, HTTPS, título, tecnologia, ASN) — `[b]` OSINT de email |
+| 6 | SSL CHECK | Validade do certificado, auditoria de versão TLS, HSTS |
+| 7 | TECH SCAN | Fingerprinting de stack — CMS, frameworks, CDN, analytics |
 
-### Analysis / Security (8–11)
+### Análise / Segurança (8–11)
 
-| # | Module | Description |
+| # | Módulo | Descrição |
 |---|---|---|
-| 8 | VULNSCAN | Headers, SQLi, XSS, LFI, redirects, admin paths |
-| 9 | CVE LOOKUP | Real-time NVD query by product or CVE ID |
-| 10 | PASTE MONITOR | Public paste and breach search |
-| 11 | CLOUD SCAN | Exposed bucket/resource check — S3, Firebase, GCP, Azure |
+| 8 | VULNSCAN | Cabeçalhos, SQLi, XSS, LFI, redirecionamentos, caminhos admin |
+| 9 | CVE LOOKUP | Consulta em tempo real ao NVD por produto ou ID de CVE |
+| 10 | PASTE MONITOR | Busca de pastes públicos e vazamentos |
+| 11 | CLOUD SCAN | Verificação de buckets/recursos expostos — S3, Firebase, GCP, Azure |
 
-### Automation (12)
+### Automação (12)
 
-| # | Module | Description |
+| # | Módulo | Descrição |
 |---|---|---|
-| 12 | CHAIN RITUAL | Full pipeline across all three heads + Judgment |
+| 12 | CHAIN RITUAL | Pipeline completo pelas três cabeças + Veredito |
 
-### Reports / Visualization (13–15)
+### Relatórios / Visualização (13–15)
 
-| # | Module | Description |
+| # | Módulo | Descrição |
 |---|---|---|
-| 13 | GRIMOIRE | Report manager — list and browse saved scans |
-| 14 | VISUALIZE | Unified intelligence view — analyze, tree, timeline, HTML graph |
-| 15 | DASHBOARD | Terminal intelligence summary across all targets |
+| 13 | GRIMOIRE | Gerenciador de relatórios — listar e navegar pelos scans salvos |
+| 14 | VISUALIZE | Visão unificada de inteligência — analisar, árvore, linha do tempo, grafo HTML |
+| 15 | DASHBOARD | Resumo de inteligência no terminal para todos os alvos |
 
-### System (C / X / L)
+### Sistema (C / X / L)
 
-| Key | Module | Description |
+| Tecla | Módulo | Descrição |
 |---|---|---|
-| C | CONFIGURE | API keys and settings |
-| X | TOR | Anonymous mode — toggle Tor proxy, check IP |
-| L | CLEAR LOGS | Delete all saved logs for a target |
+| C | CONFIGURE | Chaves de API e configurações |
+| X | TOR | Modo anônimo — ativar/desativar proxy Tor, verificar IP |
+| L | CLEAR LOGS | Apagar todos os logs salvos de um alvo |
 
 ---
 
 ## VISUALIZE — Submenu (14)
 
-All intelligence and visualization features are unified under a single menu:
+Todos os recursos de inteligência e visualização estão unificados em um único menu:
 
 ```
-=== VISUALIZE ===
+=== VISUALIZAR ===
 
-[1] ANALYZE       -> intelligence report
-[2] TREE          -> discovery tree
-[3] TIMELINE      -> exposure timeline
-[4] INTEL GRAPH   -> visual HTML graph
-[9] Back
-```
-
----
-
-## Intelligence Layer
-
-Instead of listing raw findings, **VISUALIZE → ANALYZE** interprets them:
-
-```
-[HIGH] EXPOSED ADMIN SURFACE
-  Possible administrative panel exposed.
-  Reasons:
-    - /wp-admin returned HTTP 200/401/403
-    - /phpmyadmin returned HTTP 200/401/403
-    - Content-Security-Policy header absent
-  Severity: HIGH
-
-[MEDIUM] WIDE ATTACK SURFACE
-  Large attack surface detected.
-  Reasons:
-    - 36 subdomain(s) exposed
-    - Technology stack identified: Shopify
-    - Each subdomain is a potential entry point
-  Severity: MEDIUM
+[1] ANALYZE       -> relatorio de inteligencia
+[2] TREE          -> arvore de descoberta
+[3] TIMELINE      -> linha do tempo de exposicao
+[4] INTEL GRAPH   -> grafo visual em HTML
+[9] Voltar
 ```
 
 ---
 
-## Subdomain Finder — Enriched Output
+## Camada de Inteligência
 
-Each discovered subdomain is enriched with live data:
+Em vez de apenas listar achados brutos, **VISUALIZE → ANALYZE** os interpreta:
 
 ```
-[FOUND] api.github.com
-├─ IP     : 20.201.28.148
-├─ Status : 200
-├─ HTTPS  : Sim
-├─ Título : github · build and ship software on a single, c
-├─ Tech   : github.com
-└─ ASN    : 8075 / Microsoft Corporation
+[ALTA] SUPERFICIE ADMINISTRATIVA EXPOSTA
+  Possivel painel administrativo exposto.
+  Motivos:
+    - /wp-admin retornou HTTP 200/401/403
+    - /phpmyadmin retornou HTTP 200/401/403
+    - Cabecalho Content-Security-Policy ausente
+  Severidade: ALTA
 
-[FOUND] ssh.github.com
-├─ IP     : 20.201.28.152
-├─ Status : 200
-├─ HTTPS  : Não
-├─ Título : github - change is constant. github keep
-├─ Tech   : github.com
-└─ ASN    : 8075 / Microsoft Corporation
+[MEDIA] SUPERFICIE DE ATAQUE AMPLA
+  Grande superficie de ataque detectada.
+  Motivos:
+    - 36 subdominio(s) exposto(s)
+    - Stack de tecnologia identificado: Shopify
+    - Cada subdominio e um ponto de entrada em potencial
+  Severidade: MEDIA
 ```
-
-Runs in parallel (10 threads) across DNS resolution, HTTP probing, and ASN lookup via ipwho.is.
 
 ---
 
-## Discovery Tree
+## Localizador de Subdomínios — Saída Enriquecida
 
-**VISUALIZE → TREE** maps everything found into a structured view:
+Cada subdomínio descoberto é enriquecido com dados ao vivo:
+
+```
+[ENCONTRADO] api.github.com
+├─ IP       : 20.201.28.148
+├─ Status   : 200
+├─ HTTPS    : Sim
+├─ Titulo   : github · build and ship software on a single, c
+├─ Tech     : github.com
+└─ ASN      : 8075 / Microsoft Corporation
+
+[ENCONTRADO] ssh.github.com
+├─ IP       : 20.201.28.152
+├─ Status   : 200
+├─ HTTPS    : Nao
+├─ Titulo   : github - change is constant. github keep
+├─ Tech     : github.com
+└─ ASN      : 8075 / Microsoft Corporation
+```
+
+Executa em paralelo (10 threads) fazendo resolução DNS, sondagem HTTP e consulta ASN via ipwho.is.
+
+*(Obs.: os rótulos exatos desse bloco serão confirmados quando eu traduzir o `head2_recon.py`.)*
+
+---
+
+## Árvore de Descoberta
+
+**VISUALIZE → TREE** mapeia tudo que foi encontrado em uma visão estruturada:
 
 ```
 example.com
-|-- [SUBDOMAINS] 18 found
+|-- [SUBDOMINIOS] 18 encontrado(s)
 |   |-- api.example.com -> 4.228.31.149
 |   |-- admin.example.com -> 185.199.110.133
 |   `-- ssh.example.com -> 20.201.28.152
-|-- [OPEN PORTS] 2 found
+|-- [PORTAS ABERTAS] 2 encontrada(s)
 |   |-- 22 -> SSH
 |   `-- 443 -> HTTPS
-|-- [ADMIN PATHS] 6 found
+|-- [CAMINHOS ADMIN] 6 encontrado(s)
 |   |-- /wp-admin
 |   |-- /dashboard
 |   `-- /login
-`-- [TECH STACK] 1 detected
+`-- [STACK TECNOLOGICO] 1 detectada(s)
     `-- Shopify
 ```
 
 ---
 
-## Exposure Timeline
+## Linha do Tempo de Exposição
 
-**VISUALIZE → TIMELINE** builds a chronological history of everything found:
+**VISUALIZE → TIMELINE** constrói um histórico cronológico de tudo que foi encontrado:
 
 ```
 -- 2007 ------------------------------------
-|  Domain registered
-|  Registrar: MarkMonitor, Inc.
+|  Dominio registrado
+|  Registrador: MarkMonitor, Inc.
 
 -- 2026 ------------------------------------
-|  [06/06/2026] VulnScan: HIGH=1 MEDIUM=1
-|  [06/06/2026] 18 subdomain(s) mapped
-|  [06/06/2026] Scan: HELLSCAN
-|  [06/06/2026] Scan: SSL_CHECKER
-|  [06/06/2026] SSL expires in: 57 days
+|  [06/06/2026] VulnScan: ALTO=1 MEDIO=1
+|  [06/06/2026] 18 subdominio(s) mapeado(s)
+|  [06/06/2026] Varredura: HELLSCAN
+|  [06/06/2026] Varredura: SSL_CHECKER
+|  [06/06/2026] SSL expira em: 57 dias
 `-------------------------------------------
 ```
 
@@ -341,139 +343,139 @@ example.com
 
 ## Dashboard
 
-**DASHBOARD (15)** gives a terminal-based intelligence summary across all scanned targets:
+**DASHBOARD (15)** fornece um resumo de inteligência no terminal para todos os alvos escaneados:
 
 ```
   ┌─────────────────────────────────────┐
-  │          INTELLIGENCE SUMMARY        │
+  │       RESUMO DE INTELIGENCIA         │
   ├──────────────┬──────────────────────┤
-  │ Targets      │ 3                    │
-  │ Reports      │ 17                   │
-  │ Vulns        │ 4                    │
-  │ Open Ports   │ 9                    │
-  │ Subdomains   │ 36                   │
-  │ Leaks        │ 0                    │
+  │ Alvos         │ 3                    │
+  │ Relatorios    │ 17                   │
+  │ Vulns         │ 4                    │
+  │ Portas Abertas│ 9                    │
+  │ Subdominios   │ 36                   │
+  │ Vazamentos    │ 0                    │
   └──────────────┴──────────────────────┘
 ```
 
 ---
 
-## Graph Export
+## Exportação de Grafo
 
-**VISUALIZE → INTEL GRAPH** generates an interactive HTML visualization (vis-network) linking targets to their subdomains, open ports, vulnerabilities, technologies, ISP, and SSL CA in a navigable node graph.
+**VISUALIZE → INTEL GRAPH** gera uma visualização HTML interativa (vis-network) ligando alvos aos seus subdomínios, portas abertas, vulnerabilidades, tecnologias, ISP e CA SSL em um grafo de nós navegável.
 
-Serve locally:
+Servir localmente:
 ```bash
 cd ~/cerberus/reports && python -m http.server 8080
 ```
 
 ---
 
-## VULNSCAN Checks
+## Verificações do VULNSCAN
 
-| Check | Method |
+| Verificação | Método |
 |---|---|
-| Security Headers | 6 critical response headers |
-| SQL Injection | `?id=` with common payloads |
-| Open Redirect | `?redirect=`, `?url=`, `?next=`, etc. |
-| Admin Paths | `/admin`, `/dashboard`, `/login`, etc. |
-| Reflected XSS | `?q=` with script/img/svg payloads |
-| LFI | `?file=` with path traversal payloads |
-| Directory Listing | `/uploads/`, `/backup/`, `/static/`, etc. |
+| Cabeçalhos de Segurança | 6 cabeçalhos de resposta críticos |
+| Injeção SQL | `?id=` com payloads comuns |
+| Redirecionamento Aberto | `?redirect=`, `?url=`, `?next=`, etc. |
+| Caminhos Admin | `/admin`, `/dashboard`, `/login`, etc. |
+| XSS Refletido | `?q=` com payloads de script/img/svg |
+| LFI | `?file=` com payloads de path traversal |
+| Listagem de Diretório | `/uploads/`, `/backup/`, `/static/`, etc. |
 
 ---
 
-## Tech Fingerprint — What It Detects
+## Tech Fingerprint — O Que Ele Detecta
 
 **CMS:** WordPress, Joomla, Drupal, Magento, Shopify, Wix, Ghost
 
 **Frameworks:** React, Vue.js, Angular, Next.js, jQuery, Bootstrap, Tailwind
 
-**Servers:** Apache, Nginx, IIS
+**Servidores:** Apache, Nginx, IIS
 
 **CDN/Infra:** Cloudflare, AWS CloudFront, Vercel, Netlify
 
-**Languages:** PHP, ASP.NET, Python/Django, Node.js/Express
+**Linguagens:** PHP, ASP.NET, Python/Django, Node.js/Express
 
 **Analytics:** Google Analytics, Google Tag Manager, Hotjar, Facebook Pixel
 
-**Security:** reCAPTCHA, hCaptcha
+**Segurança:** reCAPTCHA, hCaptcha
 
 ---
 
-## IP Recon — Fallback Cascade
+## IP Recon — Cascata de Fallback
 
 ```
-1. ipwho.is     -> primary
-2. ip-api.com   -> fallback
-3. ipapi.co     -> last resort
-```
-
----
-
-## Tor / Anonymous Mode
-
-**TOR (X)** toggles routing through Tor (`socks5h://127.0.0.1:9150`) and verifies the exit IP via `check.torproject.org`. When active, `[TOR ON]` appears next to the target in the menu.
-
-```
-[1] Enable Tor
-[2] Disable Tor
-[3] Check Tor IP
-[4] Start Tor daemon
+1. ipwho.is     -> primario
+2. ip-api.com   -> alternativa
+3. ipapi.co     -> ultimo recurso
 ```
 
 ---
 
-## Optional APIs
+## Tor / Modo Anônimo
 
-| API | Used in | Free tier | Link |
+**TOR (X)** alterna o roteamento pelo Tor (`socks5h://127.0.0.1:9150`) e verifica o IP de saída via `check.torproject.org`. Quando ativo, `[TOR ATIVO]` aparece ao lado do alvo no menu.
+
+```
+[1] Ativar Tor
+[2] Desativar Tor
+[3] Verificar IP do Tor
+[4] Iniciar daemon do Tor
+```
+
+---
+
+## APIs Opcionais
+
+| API | Usado em | Tier gratuito | Link |
 |---|---|---|---|
-| Shodan | CHAIN RITUAL / internals | Yes (limited) | account.shodan.io |
-| NumVerify | CHAIN RITUAL / internals | 100 req/month | numverify.com |
+| Shodan | CHAIN RITUAL / internos | Sim (limitado) | account.shodan.io |
+| NumVerify | CHAIN RITUAL / internos | 100 req/mês | numverify.com |
 
 Configure via **(C) CONFIGURE**.
 
 ---
 
-## Requirements
+## Requisitos
 
 ```bash
 pip install requests[socks] python-whois
 ```
 
-`requests[socks]` is required for Tor support.
+`requests[socks]` é necessário para suporte ao Tor.
 
 ---
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
 cerberus/
-|-- cerberus.py            # Main entrypoint — menu, chain ritual, scoring
+|-- cerberus.py            # Ponto de entrada principal — menu, chain ritual, pontuacao
 |-- README.md
 |-- core/
-|   |-- utils.py           # Colors, helpers, progress, quotes
-|   |-- config.py          # Config load/save/configure
-|   `-- grimoire.py        # Report save/list/export (HTML, Markdown)
+|   |-- utils.py           # Cores, helpers, progresso, frases
+|   |-- config.py          # Carregar/salvar/configurar
+|   `-- grimoire.py        # Salvar/listar/exportar relatorios (HTML, Markdown)
 |-- heads/
-|   |-- head1_osint.py     # Soul search, correlate, email lookup
-|   |-- head2_recon.py     # Domain, IP, hellscan, SSL, tech, subdomains
-|   `-- head3_security.py  # Vulnscan, CVE, paste monitor, Shodan, cloud, phone
+|   |-- head1_osint.py     # Busca de alma, correlacionar, busca de email
+|   |-- head2_recon.py     # Dominio, IP, hellscan, SSL, tech, subdominios
+|   `-- head3_security.py  # Vulnscan, CVE, monitor de paste, Shodan, cloud, telefone
 |-- modules/
-|   `-- visualize.py       # Analyze, tree, timeline (unified intelligence module)
-|-- logs/                  # Auto-created — scan reports (.txt)
-|-- reports/               # Auto-created — HTML/MD exports
+|   `-- visualize.py       # Analisar, arvore, linha do tempo (modulo unificado de inteligencia)
+|-- logs/                  # Auto-criado — relatorios de scan (.txt)
+|-- reports/               # Auto-criado — exports HTML/MD
 `-- config/
-    `-- settings.json      # API keys and preferences
+    `-- settings.json      # Chaves de API e preferencias
 ```
 
 ---
 
-## Legal
+## Aviso Legal
 
-This tool is for educational purposes and authorized security testing only.
-The author is not responsible for misuse.
+Esta ferramenta é apenas para fins educacionais e testes de segurança autorizados.
+A autora não se responsabiliza por uso indevido.
 
 ---
 
-**github.com/lohjs-0/cerberu-osint**
+**github.com/llohs/cerberu-osint**
