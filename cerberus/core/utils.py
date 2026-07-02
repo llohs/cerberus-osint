@@ -3,14 +3,12 @@ import sys
 import random
 import time
 import requests
-
 R = "\033[31m"
 D = "\033[2;31m"
 G = "\033[32m"
 Y = "\033[33m"
 C = "\033[36m"
 X = "\033[0m"
-
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Safari/605.1.15",
@@ -23,44 +21,35 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4) AppleWebKit/537.36 Chrome/114.0 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
 ]
-
 TOR_PROXY  = {"http": "socks5h://127.0.0.1:9150", "https": "socks5h://127.0.0.1:9150"}
 TOR_MODE   = False
-
 QUOTES = [
-    "The gates of hell open.",
-    "Three heads. One purpose.",
-    "No one leaves unseen.",
-    "The underworld watches.",
-    "All souls pass through here.",
+    "As portas do inferno se abrem.",
+    "Três cabeças. Um só propósito.",
+    "Ninguém sai sem ser visto.",
+    "O submundo observa.",
+    "Todas as almas passam por aqui.",
 ]
-
 def get_headers():
     return {"User-Agent": random.choice(USER_AGENTS)}
-
 def get_proxies():
     return TOR_PROXY if TOR_MODE else {}
-
 def set_tor(enabled):
     global TOR_MODE
     TOR_MODE = enabled
-
 def is_tor():
     return TOR_MODE
-
 def get_input(prompt="[CERBERUS]---> "):
     return input(R + prompt + X).strip().lower()
-
 def cerberus_say(msg, delay=0.04):
     for ch in msg:
         sys.stdout.write(ch)
         sys.stdout.flush()
         time.sleep(delay)
     print()
-
 def progress(label, duration=1.5, head=None):
     steps = 20
-    head_labels = {1: "HEAD I  ", 2: "HEAD II ", 3: "HEAD III"}
+    head_labels = {1: "CABEÇA I  ", 2: "CABEÇA II ", 3: "CABEÇA III"}
     head_str = D + "  [" + head_labels.get(head, "") + "] " + X if head else "  "
     for i in range(steps + 1):
         filled = "▓" * i
@@ -70,15 +59,14 @@ def progress(label, duration=1.5, head=None):
         sys.stdout.flush()
         time.sleep(duration / steps)
     print()
-
 def head_wake(head):
     msgs = {
-        1: "The first head opens its eyes...",
-        2: "The second head sniffs the network...",
-        3: "The third head prepares the judgment...",
+        1: "A primeira cabeça abre os olhos...",
+        2: "A segunda cabeça fareja a rede...",
+        3: "A terceira cabeça prepara o julgamento...",
     }
-    labels = {1: "HEAD I", 2: "HEAD II", 3: "HEAD III"}
-    label = labels.get(head, "HEAD")
+    labels = {1: "CABEÇA I", 2: "CABEÇA II", 3: "CABEÇA III"}
+    label = labels.get(head, "CABEÇA")
     msg   = msgs.get(head, "")
     print()
     print(R + "  ┌─────────────────────────────────────┐" + X)
@@ -91,16 +79,14 @@ def head_wake(head):
     print(" " * max(0, padding) + R + "│" + X)
     print(R + "  └─────────────────────────────────────┘" + X)
     print()
-
 def head_done(head):
     done = {
-        1: "First head satisfied.",
-        2: "Second head on the trail.",
-        3: "All heads have spoken.",
+        1: "Primeira cabeça satisfeita.",
+        2: "Segunda cabeça na trilha.",
+        3: "Todas as cabeças falaram.",
     }
-    print(D + "  [✓] " + done.get(head, "Done.") + X)
+    print(D + "  [✓] " + done.get(head, "Concluído.") + X)
     print()
-
 def tor_request(method, url, **kwargs):
     kwargs.setdefault("proxies", get_proxies())
     kwargs.setdefault("headers", get_headers())
