@@ -13,22 +13,22 @@ def vulnscan(target):
     saida  = "[VULNSCAN] " + base + "\n\n"
     issues = []
 
-    print(D + "  [1/7] Security headers..." + X)
+    print(D + "  [1/7] Cabeçalhos de segurança..." + X)
     try:
         r = requests.get(base, timeout=6, headers=get_headers(), proxies=get_proxies())
         for h in ["X-Frame-Options", "X-Content-Type-Options", "Strict-Transport-Security",
                   "Content-Security-Policy", "X-XSS-Protection", "Referrer-Policy"]:
             if h not in r.headers:
-                print(Y + "  [MISSING] " + h + X)
-                saida += "  [MISSING] " + h + "\n"
-                issues.append(("medium", "Missing header: " + h))
+                print(Y + "  [AUSENTE] " + h + X)
+                saida += "  [AUSENTE] " + h + "\n"
+                issues.append(("medium", "Cabeçalho ausente: " + h))
             else:
                 print(D + "  [OK]      " + h + X)
     except Exception as e:
-        print(R + "  [ERROR] " + str(e) + X)
+        print(R + "  [ERRO] " + str(e) + X)
     print()
 
-    print(D + "  [2/7] SQL injection..." + X)
+    print(D + "  [2/7] Injeção SQL..." + X)
     sqli_found = False
     try:
         test_url = base.rstrip("/") + ("&" if "?" in base else "?") + "id="
@@ -42,12 +42,12 @@ def vulnscan(target):
                     issues.append(("high", "SQLi: " + p))
                     sqli_found = True
         if not sqli_found:
-            print(G + "  No obvious SQLi." + X)
+            print(G + "  Nenhuma SQLi óbvia detectada." + X)
     except Exception as e:
-        print(R + "  [ERROR] " + str(e) + X)
+        print(R + "  [ERRO] " + str(e) + X)
     print()
 
-    print(D + "  [3/7] Open redirect..." + X)
+    print(D + "  [3/7] Redirecionamento aberto..." + X)
     redirect_found = False
     try:
         for param in ["redirect", "url", "next", "return", "goto"]:
@@ -55,17 +55,17 @@ def vulnscan(target):
             r = requests.get(test, timeout=5, headers=get_headers(),
                              proxies=get_proxies(), allow_redirects=False)
             if "evil.com" in r.headers.get("Location", ""):
-                print(R + "  [VULN] Open redirect: ?" + param + X)
-                saida += "  [VULN] Open redirect: ?" + param + "\n"
-                issues.append(("high", "Open redirect: ?" + param))
+                print(R + "  [VULN] Redirecionamento aberto: ?" + param + X)
+                saida += "  [VULN] Redirecionamento aberto: ?" + param + "\n"
+                issues.append(("high", "Redirecionamento aberto: ?" + param))
                 redirect_found = True
         if not redirect_found:
-            print(G + "  No open redirect." + X)
+            print(G + "  Nenhum redirecionamento aberto encontrado." + X)
     except Exception as e:
-        print(R + "  [ERROR] " + str(e) + X)
+        print(R + "  [ERRO] " + str(e) + X)
     print()
 
-    print(D + "  [4/7] Exposed admin paths..." + X)
+    print(D + "  [4/7] Caminhos de admin expostos..." + X)
     try:
         for path in ["/admin", "/admin/login", "/wp-admin", "/phpmyadmin",
                      "/dashboard", "/panel", "/cpanel", "/login", "/api/admin"]:
@@ -74,14 +74,14 @@ def vulnscan(target):
             if r.status_code in [200, 401, 403]:
                 print(Y + "  [" + str(r.status_code) + "] " + path + X)
                 saida += "  [" + str(r.status_code) + "] " + path + "\n"
-                issues.append(("medium", "Exposed: " + path))
+                issues.append(("medium", "Exposto: " + path))
             else:
                 print(D + "  [---] " + path + X)
     except Exception as e:
-        print(R + "  [ERROR] " + str(e) + X)
+        print(R + "  [ERRO] " + str(e) + X)
     print()
 
-    print(D + "  [5/7] Reflected XSS..." + X)
+    print(D + "  [5/7] XSS refletido..." + X)
     xss_found = False
     try:
         test_url = base.rstrip("/") + ("&" if "?" in base else "?") + "q="
@@ -96,12 +96,12 @@ def vulnscan(target):
                 xss_found = True
                 break
         if not xss_found:
-            print(G + "  No reflected XSS." + X)
+            print(G + "  Nenhum XSS refletido encontrado." + X)
     except Exception as e:
-        print(R + "  [ERROR] " + str(e) + X)
+        print(R + "  [ERRO] " + str(e) + X)
     print()
 
-    print(D + "  [6/7] LFI + Directory listing..." + X)
+    print(D + "  [6/7] LFI + Listagem de diretórios..." + X)
     lfi_found = False
     try:
         test_url = base.rstrip("/") + ("&" if "?" in base else "?") + "file="
@@ -115,21 +115,21 @@ def vulnscan(target):
                 lfi_found = True
                 break
         if not lfi_found:
-            print(G + "  No LFI detected." + X)
+            print(G + "  Nenhum LFI detectado." + X)
         for path in ["/images/", "/uploads/", "/files/", "/backup/", "/static/"]:
             r = requests.get(base.rstrip("/") + path, timeout=4,
                              headers=get_headers(), proxies=get_proxies())
             if r.status_code == 200 and (
                 "index of" in r.text.lower() or "parent directory" in r.text.lower()
             ):
-                print(Y + "  [OPEN] Directory listing: " + path + X)
-                saida += "  [OPEN] Directory listing: " + path + "\n"
-                issues.append(("medium", "Directory listing: " + path))
+                print(Y + "  [ABERTO] Listagem de diretório: " + path + X)
+                saida += "  [ABERTO] Listagem de diretório: " + path + "\n"
+                issues.append(("medium", "Listagem de diretório: " + path))
     except Exception as e:
-        print(R + "  [ERROR] " + str(e) + X)
+        print(R + "  [ERRO] " + str(e) + X)
     print()
 
-    print(D + "  [7/7] Exposed sensitive files..." + X)
+    print(D + "  [7/7] Arquivos sensíveis expostos..." + X)
     sensitive = [
         "/.env", "/.env.backup", "/.env.local", "/.git/config", "/.git/HEAD",
         "/wp-config.php", "/wp-config.php.bak", "/config.php", "/config.yml",
@@ -149,52 +149,52 @@ def vulnscan(target):
                               "private", "BEGIN RSA", "PRIVATE KEY"]
                 matched = any(ind.lower() in r.text.lower() for ind in indicators)
                 if matched:
-                    print(R + "  [CRITICAL] " + path + " EXPOSED with sensitive content!" + X)
-                    saida += "  [CRITICAL] " + path + " exposed\n"
-                    issues.append(("critical", "Sensitive file exposed: " + path))
+                    print(R + "  [CRÍTICO] " + path + " EXPOSTO com conteúdo sensível!" + X)
+                    saida += "  [CRÍTICO] " + path + " exposto\n"
+                    issues.append(("critical", "Arquivo sensível exposto: " + path))
                     sensitive_found = True
                 else:
-                    print(Y + "  [FOUND] " + path + " accessible (status 200)" + X)
-                    saida += "  [FOUND] " + path + "\n"
-                    issues.append(("medium", "File accessible: " + path))
+                    print(Y + "  [ENCONTRADO] " + path + " acessível (status 200)" + X)
+                    saida += "  [ENCONTRADO] " + path + "\n"
+                    issues.append(("medium", "Arquivo acessível: " + path))
                     sensitive_found = True
             else:
                 print(D + "  [---] " + path + X)
         except:
             print(D + "  [---] " + path + X)
     if not sensitive_found:
-        print(G + "  No sensitive files exposed." + X)
+        print(G + "  Nenhum arquivo sensível exposto." + X)
 
     print()
-    print(R + "  === SUMMARY ===" + X)
+    print(R + "  === RESUMO ===" + X)
     critical = [i for i in issues if i[0] == "critical"]
     high     = [i for i in issues if i[0] == "high"]
     medium   = [i for i in issues if i[0] == "medium"]
     if not issues:
-        print(G + "  No vulnerabilities found." + X)
+        print(G + "  Nenhuma vulnerabilidade encontrada." + X)
     else:
-        print(R + "  CRITICAL : " + str(len(critical)) + X)
-        print(R + "  HIGH     : " + str(len(high)) + X)
-        print(Y + "  MEDIUM   : " + str(len(medium)) + X)
-    saida += "\nSUMMARY\nCRITICAL: " + str(len(critical)) + \
-             "  HIGH: " + str(len(high)) + \
-             "  MEDIUM: " + str(len(medium)) + "\n"
+        print(R + "  CRÍTICO : " + str(len(critical)) + X)
+        print(R + "  ALTO    : " + str(len(high)) + X)
+        print(Y + "  MÉDIO   : " + str(len(medium)) + X)
+    saida += "\nRESUMO\nCRÍTICO: " + str(len(critical)) + \
+             "  ALTO: " + str(len(high)) + \
+             "  MÉDIO: " + str(len(medium)) + "\n"
     print()
     caminho = grimoire_salvar(target, "vulnscan", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
     return len(critical), len(high), len(medium)
 
 
 def cve_lookup():
-    print("\n" + R + "  === CVE LOOKUP ===" + X + "\n")
-    print(D + "  [1] Search by product/version" + X)
-    print(D + "  [2] Specific CVE (ex: CVE-2021-44228)" + X + "\n")
-    op    = input(R + "  Choose: " + X).strip()
+    print("\n" + R + "  === CONSULTA DE CVE ===" + X + "\n")
+    print(D + "  [1] Buscar por produto/versão" + X)
+    print(D + "  [2] CVE específico (ex: CVE-2021-44228)" + X + "\n")
+    op    = input(R + "  Escolha: " + X).strip()
     saida = ""
 
     if op == "1":
-        produto = input(R + "  Product (ex: apache 2.4.49): " + X).strip()
-        print("\n" + D + "  Querying NVD..." + X + "\n")
+        produto = input(R + "  Produto (ex: apache 2.4.49): " + X).strip()
+        print("\n" + D + "  Consultando NVD..." + X + "\n")
         try:
             r     = requests.get(
                 "https://services.nvd.nist.gov/rest/json/cves/2.0",
@@ -204,7 +204,7 @@ def cve_lookup():
             items = r.json().get("vulnerabilities", [])
             saida = "[CVE] " + produto + "\n\n"
             if not items:
-                print(D + "  No CVEs found." + X + "\n")
+                print(D + "  Nenhum CVE encontrado." + X + "\n")
                 return
             for item in items:
                 cve    = item["cve"]
@@ -222,11 +222,11 @@ def cve_lookup():
                 print(D + "  " + desc + X + "\n")
                 saida += "[" + cve_id + "] " + score + " " + sev + "\n" + desc + "\n\n"
         except Exception as e:
-            print(R + "  Error: " + str(e) + X)
+            print(R + "  Erro: " + str(e) + X)
 
     elif op == "2":
-        cve_id = input(R + "  CVE ID: " + X).strip().upper()
-        print("\n" + D + "  Querying NVD..." + X + "\n")
+        cve_id = input(R + "  ID do CVE: " + X).strip().upper()
+        print("\n" + D + "  Consultando NVD..." + X + "\n")
         try:
             r     = requests.get(
                 "https://services.nvd.nist.gov/rest/json/cves/2.0",
@@ -235,7 +235,7 @@ def cve_lookup():
             items = r.json().get("vulnerabilities", [])
             saida = "[CVE] " + cve_id + "\n\n"
             if not items:
-                print(D + "  CVE not found." + X + "\n")
+                print(D + "  CVE não encontrado." + X + "\n")
                 return
             cve    = items[0]["cve"]
             desc   = cve.get("descriptions", [{}])[0].get("value", "N/A")
@@ -248,30 +248,30 @@ def cve_lookup():
                     vector = m.get("vectorString", "N/A")
                     break
             cor = R if sev in ["CRITICAL", "HIGH"] else Y if sev == "MEDIUM" else G
-            for chave, val in [("ID", cve_id), ("Score", score + " (" + sev + ")"), ("Vector", vector)]:
+            for chave, val in [("ID", cve_id), ("Score", score + " (" + sev + ")"), ("Vetor", vector)]:
                 print(cor + "  " + chave.ljust(8) + ": " + val + X)
             print(D + "\n  " + desc[:300] + X)
             refs = cve.get("references", [])
             if refs:
-                print("\n" + R + "  [REFERENCES]" + X)
+                print("\n" + R + "  [REFERÊNCIAS]" + X)
                 for ref in refs[:5]:
                     print(D + "  -> " + ref.get("url", "") + X)
                     saida += "  -> " + ref.get("url", "") + "\n"
         except Exception as e:
-            print(R + "  Error: " + str(e) + X)
+            print(R + "  Erro: " + str(e) + X)
 
     print()
     if saida:
         caminho = grimoire_salvar("cve", "lookup", saida)
-        print(R + "  Report saved: " + X + caminho + "\n")
+        print(R + "  Relatório salvo: " + X + caminho + "\n")
 
 
 def paste_monitor(target):
-    print("\n" + R + "  === PASTE / LEAK MONITOR: " + target + " ===" + X + "\n")
+    print("\n" + R + "  === MONITOR DE PASTE / VAZAMENTO: " + target + " ===" + X + "\n")
     saida      = "[PASTE MONITOR] " + target + "\n\n"
     encontrados = []
 
-    print(D + "  Searching public sources..." + X + "\n")
+    print(D + "  Buscando em fontes públicas..." + X + "\n")
     dorks_paste = [
         'site:pastebin.com "' + target + '"',
         '"' + target + '" password leaked',
@@ -288,8 +288,8 @@ def paste_monitor(target):
                 if "FirstURL" in item and target.lower() in item.get("Text", "").lower():
                     url = item["FirstURL"]
                     encontrados.append(url)
-                    print(R + "  [FOUND] " + url + X)
-                    saida += "  [FOUND] " + url + "\n"
+                    print(R + "  [ENCONTRADO] " + url + X)
+                    saida += "  [ENCONTRADO] " + url + "\n"
         except:
             pass
 
@@ -303,24 +303,24 @@ def paste_monitor(target):
             )
             if r.status_code == 200:
                 breaches = r.json()
-                print(R + "  [!] " + str(len(breaches)) + " breach(es) found!" + X)
+                print(R + "  [!] " + str(len(breaches)) + " vazamento(s) encontrado(s)!" + X)
                 for b in breaches[:5]:
                     linha = "  -> " + b.get("Name", "?") + " (" + b.get("BreachDate", "?") + ")"
                     print(Y + linha + X)
                     saida += linha + "\n"
             elif r.status_code == 404:
-                print(G + "  [OK] Not found in known breaches." + X)
+                print(G + "  [OK] Não encontrado em vazamentos conhecidos." + X)
             elif r.status_code == 401:
-                print(D + "  [HIBP] API key required." + X)
+                print(D + "  [HIBP] Chave de API necessária." + X)
         except Exception as e:
-            print(D + "  [HIBP] Error: " + str(e) + X)
+            print(D + "  [HIBP] Erro: " + str(e) + X)
 
     if not encontrados:
-        print(D + "  No public pastes found." + X)
+        print(D + "  Nenhum paste público encontrado." + X)
 
-    print("\n" + R + "  " + str(len(encontrados)) + " result(s)" + X + "\n")
+    print("\n" + R + "  " + str(len(encontrados)) + " resultado(s)" + X + "\n")
     caminho = grimoire_salvar(target, "paste_monitor", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
 
 
 def shodan_search(target):
@@ -328,8 +328,8 @@ def shodan_search(target):
     cfg     = config_load()
     api_key = cfg.get("apis", {}).get("shodan", "")
     if not api_key:
-        print(R + "  [!] Shodan API key not configured." + X)
-        print(D + "  Configure at: menu (8) -> [2] Shodan" + X + "\n")
+        print(R + "  [!] Chave de API do Shodan não configurada." + X)
+        print(D + "  Configure em: menu (8) -> [2] Shodan" + X + "\n")
         return
     saida = "[SHODAN] " + target + "\n\n"
     try:
@@ -343,29 +343,29 @@ def shodan_search(target):
             params={"key": api_key}, timeout=8
         )
         if r.status_code == 404:
-            print(D + "  No Shodan data for this IP." + X + "\n")
+            print(D + "  Nenhum dado do Shodan para este IP." + X + "\n")
             return
         if r.status_code == 401:
-            print(R + "  Invalid API key." + X + "\n")
+            print(R + "  Chave de API inválida." + X + "\n")
             return
         d = r.json()
-        print(R + "  [GENERAL INFO]" + X)
+        print(R + "  [INFO GERAL]" + X)
         for chave, val in [
-            ("IP",        d.get("ip_str")),
-            ("Org",       d.get("org")),
-            ("ISP",       d.get("isp")),
-            ("Country",   d.get("country_name")),
-            ("City",      d.get("city")),
-            ("OS",        d.get("os", "N/A")),
-            ("Hostnames", ", ".join(d.get("hostnames", []))),
-            ("Tags",      ", ".join(d.get("tags", []))),
+            ("IP",         d.get("ip_str")),
+            ("Org",        d.get("org")),
+            ("ISP",        d.get("isp")),
+            ("País",       d.get("country_name")),
+            ("Cidade",     d.get("city")),
+            ("SO",         d.get("os", "N/A")),
+            ("Hostnames",  ", ".join(d.get("hostnames", []))),
+            ("Tags",       ", ".join(d.get("tags", []))),
         ]:
             if val:
                 linha = "  " + chave.ljust(12) + ": " + str(val)
                 print(D + linha + X)
                 saida += linha + "\n"
-        print("\n" + R + "  [PORTS / SERVICES]" + X)
-        saida += "\n[PORTS]\n"
+        print("\n" + R + "  [PORTAS / SERVIÇOS]" + X)
+        saida += "\n[PORTAS]\n"
         todos_vulns = []
         for item in d.get("data", []):
             porta   = item.get("port", "?")
@@ -385,20 +385,20 @@ def shodan_search(target):
             for v in set(todos_vulns):
                 print(R + "  -> " + v + X)
     except Exception as e:
-        print(R + "  Error: " + str(e) + X)
+        print(R + "  Erro: " + str(e) + X)
     print()
     caminho = grimoire_salvar(target, "shodan", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
 
 
 def cloud_scan(target):
     base = target.replace("http://", "").replace("https://", "").rstrip("/")
     name = base.replace("www.", "").split(".")[0]
-    print("\n" + R + "  === CLOUD SCAN: " + base + " ===" + X + "\n")
+    print("\n" + R + "  === SCAN DE NUVEM: " + base + " ===" + X + "\n")
     saida = "[CLOUD SCAN] " + base + "\n\n"
     found = []
 
-    print(D + "  [1/3] S3 Buckets..." + X)
+    print(D + "  [1/3] Buckets S3..." + X)
     s3_candidates = [
         name, name + "-backup", name + "-dev", name + "-prod",
         name + "-staging", name + "-assets", name + "-static",
@@ -411,15 +411,15 @@ def cloud_scan(target):
         try:
             r = requests.get(url, timeout=5, headers=get_headers(), proxies=get_proxies())
             if r.status_code == 200:
-                print(R + "  [CRITICAL] S3 PUBLIC: " + url + X)
-                saida += "  [CRITICAL] S3 PUBLIC: " + url + "\n"
-                found.append(("CRITICAL", "S3 public: " + url))
+                print(R + "  [CRÍTICO] S3 PÚBLICO: " + url + X)
+                saida += "  [CRÍTICO] S3 público: " + url + "\n"
+                found.append(("CRITICAL", "S3 público: " + url))
                 if "<ListBucketResult" in r.text:
-                    print(R + "  [CRITICAL] Bucket listing ENABLED!" + X)
+                    print(R + "  [CRÍTICO] Listagem de bucket HABILITADA!" + X)
             elif r.status_code == 403:
-                print(Y + "  [EXISTS]   S3 private: " + url + X)
-                saida += "  [EXISTS] S3 private: " + url + "\n"
-                found.append(("MEDIUM", "S3 exists (private): " + url))
+                print(Y + "  [EXISTE]   S3 privado: " + url + X)
+                saida += "  [EXISTE] S3 privado: " + url + "\n"
+                found.append(("MEDIUM", "S3 existe (privado): " + url))
             else:
                 print(D + "  [---] " + bucket + X)
         except:
@@ -435,14 +435,14 @@ def cloud_scan(target):
         try:
             r = requests.get(url, timeout=5, headers=get_headers(), proxies=get_proxies())
             if r.status_code == 200:
-                print(R + "  [CRITICAL] Firebase OPEN: " + url + X)
-                print(R + "  [CRITICAL] Data size: " + str(len(r.text)) + " bytes" + X)
-                saida += "  [CRITICAL] Firebase open: " + url + "\n"
-                found.append(("CRITICAL", "Firebase open: " + url))
+                print(R + "  [CRÍTICO] Firebase ABERTO: " + url + X)
+                print(R + "  [CRÍTICO] Tamanho dos dados: " + str(len(r.text)) + " bytes" + X)
+                saida += "  [CRÍTICO] Firebase aberto: " + url + "\n"
+                found.append(("CRITICAL", "Firebase aberto: " + url))
             elif r.status_code in [401, 403]:
-                print(Y + "  [EXISTS]   Firebase protected: " + fb + ".firebaseio.com" + X)
-                saida += "  [EXISTS] Firebase protected: " + fb + "\n"
-                found.append(("LOW", "Firebase exists: " + fb))
+                print(Y + "  [EXISTE]   Firebase protegido: " + fb + ".firebaseio.com" + X)
+                saida += "  [EXISTE] Firebase protegido: " + fb + "\n"
+                found.append(("LOW", "Firebase existe: " + fb))
             else:
                 print(D + "  [---] " + fb + X)
         except:
@@ -453,12 +453,12 @@ def cloud_scan(target):
     try:
         r = requests.get(gcp_url, timeout=5, headers=get_headers(), proxies=get_proxies())
         if r.status_code == 200:
-            print(R + "  [CRITICAL] GCP Storage PUBLIC: " + gcp_url + X)
-            saida += "  [CRITICAL] GCP public: " + gcp_url + "\n"
-            found.append(("CRITICAL", "GCP public: " + gcp_url))
+            print(R + "  [CRÍTICO] GCP Storage PÚBLICO: " + gcp_url + X)
+            saida += "  [CRÍTICO] GCP público: " + gcp_url + "\n"
+            found.append(("CRITICAL", "GCP público: " + gcp_url))
         elif r.status_code == 403:
-            print(Y + "  [EXISTS]   GCP bucket exists: " + name + X)
-            saida += "  [EXISTS] GCP: " + name + "\n"
+            print(Y + "  [EXISTE]   Bucket GCP existe: " + name + X)
+            saida += "  [EXISTE] GCP: " + name + "\n"
         else:
             print(D + "  [---] GCP: " + name + X)
     except:
@@ -468,78 +468,78 @@ def cloud_scan(target):
     try:
         r = requests.get(azure_url, timeout=5, headers=get_headers(), proxies=get_proxies())
         if r.status_code == 200 or "BlobServiceProperties" in r.text:
-            print(R + "  [CRITICAL] Azure Blob PUBLIC: " + azure_url + X)
-            saida += "  [CRITICAL] Azure public: " + azure_url + "\n"
-            found.append(("CRITICAL", "Azure public: " + azure_url))
+            print(R + "  [CRÍTICO] Azure Blob PÚBLICO: " + azure_url + X)
+            saida += "  [CRÍTICO] Azure público: " + azure_url + "\n"
+            found.append(("CRITICAL", "Azure público: " + azure_url))
         elif r.status_code in [400, 403]:
-            print(Y + "  [EXISTS]   Azure blob exists: " + name + X)
-            saida += "  [EXISTS] Azure: " + name + "\n"
+            print(Y + "  [EXISTE]   Blob Azure existe: " + name + X)
+            saida += "  [EXISTE] Azure: " + name + "\n"
         else:
             print(D + "  [---] Azure: " + name + X)
     except:
         print(D + "  [---] Azure: " + name + X)
 
     print()
-    print(R + "  === SUMMARY ===" + X)
+    print(R + "  === RESUMO ===" + X)
     critical = [f for f in found if f[0] == "CRITICAL"]
     medium   = [f for f in found if f[0] == "MEDIUM"]
     low      = [f for f in found if f[0] == "LOW"]
     if not found:
-        print(G + "  No exposed cloud storage found." + X)
+        print(G + "  Nenhum armazenamento em nuvem exposto encontrado." + X)
     else:
-        if critical: print(R + "  CRITICAL : " + str(len(critical)) + X)
-        if medium:   print(Y + "  MEDIUM   : " + str(len(medium)) + X)
-        if low:      print(D + "  LOW      : " + str(len(low)) + X)
+        if critical: print(R + "  CRÍTICO : " + str(len(critical)) + X)
+        if medium:   print(Y + "  MÉDIO   : " + str(len(medium)) + X)
+        if low:      print(D + "  BAIXO   : " + str(len(low)) + X)
 
-    saida += "\nSUMMARY\nCRITICAL: " + str(len(critical)) + \
-             "  MEDIUM: " + str(len(medium)) + "\n"
+    saida += "\nRESUMO\nCRÍTICO: " + str(len(critical)) + \
+             "  MÉDIO: " + str(len(medium)) + "\n"
     print()
     caminho = grimoire_salvar(target, "cloud_scan", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
     return len(critical)
 
 
 def phone_osint():
-    print("\n" + R + "  === PHONE OSINT ===" + X + "\n")
-    numero = input(R + "  Phone (ex: +5511999999999): " + X).strip()
+    print("\n" + R + "  === OSINT DE TELEFONE ===" + X + "\n")
+    numero = input(R + "  Telefone (ex: +5511999999999): " + X).strip()
     if not numero.startswith("+"):
-        print(R + "  Use international format: +55..." + X + "\n")
+        print(R + "  Use o formato internacional: +55..." + X + "\n")
         return
     saida  = "[PHONE OSINT] " + numero + "\n\n"
     paises = {
-        "+55": "Brasil", "+1": "USA/Canada", "+44": "UK",
-        "+351": "Portugal", "+54": "Argentina", "+34": "Spain",
-        "+49": "Germany", "+33": "France", "+81": "Japan",
-        "+86": "China", "+91": "India", "+7": "Russia",
+        "+55": "Brasil", "+1": "EUA/Canadá", "+44": "Reino Unido",
+        "+351": "Portugal", "+54": "Argentina", "+34": "Espanha",
+        "+49": "Alemanha", "+33": "França", "+81": "Japão",
+        "+86": "China", "+91": "Índia", "+7": "Rússia",
     }
-    pais = "Unknown"
+    pais = "Desconhecido"
     for prefixo, nome in sorted(paises.items(), key=lambda x: -len(x[0])):
         if numero.startswith(prefixo):
             pais = nome
             break
-    print(R + "  [BASIC INFO]" + X)
-    for chave, val in [("Number", numero), ("Country", pais)]:
+    print(R + "  [INFO BÁSICA]" + X)
+    for chave, val in [("Número", numero), ("País", pais)]:
         linha = "  " + chave.ljust(12) + ": " + val
         print(D + linha + X)
         saida += linha + "\n"
     if numero.startswith("+55") and len(numero) >= 5:
         ddd  = numero[3:5]
         ddds = {
-            "11": "Sao Paulo", "19": "Campinas", "21": "Rio de Janeiro",
+            "11": "São Paulo", "19": "Campinas", "21": "Rio de Janeiro",
             "31": "Belo Horizonte", "41": "Curitiba", "51": "Porto Alegre",
-            "61": "Brasilia", "71": "Salvador", "81": "Recife",
+            "61": "Brasília", "71": "Salvador", "81": "Recife",
             "85": "Fortaleza", "92": "Manaus",
         }
-        regiao = ddds.get(ddd, "Unknown DDD")
-        tipo   = "Mobile" if len(numero) == 14 else "Landline" if len(numero) == 13 else "Unknown"
-        for chave, val in [("DDD", ddd + " -> " + regiao), ("Type", tipo)]:
+        regiao = ddds.get(ddd, "DDD desconhecido")
+        tipo   = "Celular" if len(numero) == 14 else "Fixo" if len(numero) == 13 else "Desconhecido"
+        for chave, val in [("DDD", ddd + " -> " + regiao), ("Tipo", tipo)]:
             linha = "  " + chave.ljust(12) + ": " + val
             print(D + linha + X)
             saida += linha + "\n"
     cfg     = config_load()
     api_key = cfg.get("apis", {}).get("numverify", "")
     if api_key:
-        print("\n" + R + "  [NUMVERIFY API]" + X)
+        print("\n" + R + "  [API NUMVERIFY]" + X)
         try:
             r = requests.get(
                 "http://apilayer.net/api/validate",
@@ -548,16 +548,16 @@ def phone_osint():
             )
             d = r.json()
             if d.get("valid"):
-                for k, v in [("Carrier", "carrier"), ("Type", "line_type"),
-                              ("Country", "country_name")]:
+                for k, v in [("Operadora", "carrier"), ("Tipo", "line_type"),
+                              ("País", "country_name")]:
                     val  = str(d.get(v, "N/A"))
                     linha = "  " + k.ljust(15) + ": " + val
                     print(D + linha + X)
                     saida += linha + "\n"
         except Exception as e:
-            print(D + "  Error: " + str(e) + X)
+            print(D + "  Erro: " + str(e) + X)
     else:
-        print("\n" + Y + "  [!] Set up NumVerify API in menu (8) for carrier data." + X)
+        print("\n" + Y + "  [!] Configure a API NumVerify no menu (8) para dados da operadora." + X)
     print()
     caminho = grimoire_salvar(numero.replace("+", ""), "phone_osint", saida)
-    print(R + "  Report saved: " + X + caminho + "\n")
+    print(R + "  Relatório salvo: " + X + caminho + "\n")
